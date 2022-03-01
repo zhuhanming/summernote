@@ -1,20 +1,20 @@
-import $ from "jquery";
-import "/js/settings.js";
-import renderer from "/js/renderer";
-import "./summernote-bs4.scss";
+import $ from 'jquery';
+import '/js/settings.js';
+import renderer from '/js/renderer';
+import './summernote-bs4.scss';
 
 const editor = renderer.create(
-  '<div class="note-editor note-frame card"></div>'
+  '<div class="note-editor note-frame card"></div>',
 );
 const toolbar = renderer.create(
-  '<div class="note-toolbar card-header" role="toolbar"></div>'
+  '<div class="note-toolbar card-header" role="toolbar"></div>',
 );
 const editingArea = renderer.create('<div class="note-editing-area"></div>');
 const codable = renderer.create(
-  '<textarea class="note-codable" aria-multiline="true"></textarea>'
+  '<textarea class="note-codable" aria-multiline="true"></textarea>',
 );
 const editable = renderer.create(
-  '<div class="note-editable card-block" contentEditable="true" role="textbox" aria-multiline="true"></div>'
+  '<div class="note-editable card-block" contentEditable="true" role="textbox" aria-multiline="true"></div>',
 );
 const statusbar = renderer.create(
   [
@@ -24,23 +24,23 @@ const statusbar = renderer.create(
     '<div class="note-icon-bar"></div>',
     '<div class="note-icon-bar"></div>',
     '<div class="note-icon-bar"></div>',
-    "</div>",
-    "</div>",
-  ].join("")
+    '</div>',
+    '</div>',
+  ].join(''),
 );
 
 const airEditor = renderer.create(
-  '<div class="note-editor note-airframe"></div>'
+  '<div class="note-editor note-airframe"></div>',
 );
 const airEditable = renderer.create(
   [
     '<div class="note-editable" contentEditable="true" role="textbox" aria-multiline="true"></div>',
     '<output class="note-status-output" role="status" aria-live="polite"></output>',
-  ].join("")
+  ].join(''),
 );
 
 const buttonGroup = renderer.create(
-  '<div class="note-btn-group btn-group"></div>'
+  '<div class="note-btn-group btn-group"></div>',
 );
 
 const dropdown = renderer.create(
@@ -49,13 +49,13 @@ const dropdown = renderer.create(
     const markup = Array.isArray(options.items)
       ? options.items
           .map(function (item) {
-            const value = typeof item === "string" ? item : item.value || "";
+            const value = typeof item === 'string' ? item : item.value || '';
             const content = options.template ? options.template(item) : item;
-            const option = typeof item === "object" ? item.option : undefined;
+            const option = typeof item === 'object' ? item.option : undefined;
 
             const dataValue = 'data-value="' + value + '"';
             const dataOption =
-              option !== undefined ? ' data-option="' + option + '"' : "";
+              option !== undefined ? ' data-option="' + option + '"' : '';
             return (
               '<a class="dropdown-item" href="#" ' +
               (dataValue + dataOption) +
@@ -63,18 +63,18 @@ const dropdown = renderer.create(
               value +
               '">' +
               content +
-              "</a>"
+              '</a>'
             );
           })
-          .join("")
+          .join('')
       : options.items;
 
-    $node.html(markup).attr({ "aria-label": options.title });
+    $node.html(markup).attr({ 'aria-label': options.title });
 
     if (options && options.codeviewKeepButton) {
-      $node.addClass("note-codeview-keep");
+      $node.addClass('note-codeview-keep');
     }
-  }
+  },
 );
 
 const dropdownButtonContents = function (contents) {
@@ -87,7 +87,7 @@ const dropdownCheck = renderer.create(
     const markup = Array.isArray(options.items)
       ? options.items
           .map(function (item) {
-            const value = typeof item === "string" ? item : item.value || "";
+            const value = typeof item === 'string' ? item : item.value || '';
             const content = options.template ? options.template(item) : item;
             return (
               '<a class="dropdown-item" href="#" data-value="' +
@@ -96,29 +96,29 @@ const dropdownCheck = renderer.create(
               item +
               '">' +
               icon(options.checkClassName) +
-              " " +
+              ' ' +
               content +
-              "</a>"
+              '</a>'
             );
           })
-          .join("")
+          .join('')
       : options.items;
-    $node.html(markup).attr({ "aria-label": options.title });
+    $node.html(markup).attr({ 'aria-label': options.title });
 
     if (options && options.codeviewKeepButton) {
-      $node.addClass("note-codeview-keep");
+      $node.addClass('note-codeview-keep');
     }
-  }
+  },
 );
 
 const dialog = renderer.create(
   '<div class="modal note-modal" aria-hidden="false" tabindex="-1" role="dialog"></div>',
   function ($node, options) {
     if (options.fade) {
-      $node.addClass("fade");
+      $node.addClass('fade');
     }
     $node.attr({
-      "aria-label": options.title,
+      'aria-label': options.title,
     });
     $node.html(
       [
@@ -128,38 +128,33 @@ const dialog = renderer.create(
           ? '<div class="modal-header">' +
             '<h4 class="modal-title">' +
             options.title +
-            "</h4>" +
+            '</h4>' +
             '<button type="button" class="close" data-dismiss="modal" aria-label="Close" aria-hidden="true">&times;</button>' +
-            "</div>"
-          : "",
-        '<div class="modal-body">' + options.body + "</div>",
+            '</div>'
+          : '',
+        '<div class="modal-body">' + options.body + '</div>',
         options.footer
-          ? '<div class="modal-footer">' + options.footer + "</div>"
-          : "",
-        "</div>",
-        "</div>",
-      ].join("")
+          ? '<div class="modal-footer">' + options.footer + '</div>'
+          : '',
+        '</div>',
+        '</div>',
+      ].join(''),
     );
-  }
+  },
 );
 
 const popover = renderer.create(
   [
     '<div class="note-popover popover in">',
-    '<div class="arrow"></div>',
     '<div class="popover-content note-children-container"></div>',
-    "</div>",
-  ].join(""),
+    '</div>',
+  ].join(''),
   function ($node, options) {
     const direction =
-      typeof options.direction !== "undefined" ? options.direction : "bottom";
+      typeof options.direction !== 'undefined' ? options.direction : 'bottom';
 
     $node.addClass(direction);
-
-    if (options.hideArrow) {
-      $node.find(".arrow").hide();
-    }
-  }
+  },
 );
 
 const checkbox = renderer.create(
@@ -168,25 +163,25 @@ const checkbox = renderer.create(
     $node.html(
       [
         '<label class="form-check-label"' +
-          (options.id ? ' for="note-' + options.id + '"' : "") +
-          ">",
+          (options.id ? ' for="note-' + options.id + '"' : '') +
+          '>',
         '<input type="checkbox" class="form-check-input"' +
-          (options.id ? ' id="note-' + options.id + '"' : ""),
-        options.checked ? " checked" : "",
-        ' aria-label="' + (options.text ? options.text : "") + '"',
-        ' aria-checked="' + (options.checked ? "true" : "false") + '"/>',
-        " " + (options.text ? options.text : "") + "</label>",
-      ].join("")
+          (options.id ? ' id="note-' + options.id + '"' : ''),
+        options.checked ? ' checked' : '',
+        ' aria-label="' + (options.text ? options.text : '') + '"',
+        ' aria-checked="' + (options.checked ? 'true' : 'false') + '"/>',
+        ' ' + (options.text ? options.text : '') + '</label>',
+      ].join(''),
     );
-  }
+  },
 );
 
 const icon = function (iconClassName, tagName) {
   if (iconClassName.match(/^</)) {
     return iconClassName;
   }
-  tagName = tagName || "i";
-  return "<" + tagName + ' class="' + iconClassName + '"></' + tagName + ">";
+  tagName = tagName || 'i';
+  return '<' + tagName + ' class="' + iconClassName + '"></' + tagName + '>';
 };
 
 const ui = function (editorOptions) {
@@ -245,23 +240,23 @@ const ui = function (editorOptions) {
                   colorName,
                   '" ',
                   'data-toggle="button" tabindex="-1"></button>',
-                ].join("")
+                ].join(''),
               );
             }
             contents.push(
-              '<div class="note-color-row">' + buttons.join("") + "</div>"
+              '<div class="note-color-row">' + buttons.join('') + '</div>',
             );
           }
-          $node.html(contents.join(""));
+          $node.html(contents.join(''));
 
           if (options.tooltip) {
-            $node.find(".note-color-btn").tooltip({
+            $node.find('.note-color-btn').tooltip({
               container: options.container || editorOptions.container,
-              trigger: "hover",
-              placement: "bottom",
+              trigger: 'hover',
+              placement: 'bottom',
             });
           }
-        }
+        },
       )($node, options);
     },
 
@@ -273,54 +268,54 @@ const ui = function (editorOptions) {
             $node
               .attr({
                 title: options.tooltip,
-                "aria-label": options.tooltip,
+                'aria-label': options.tooltip,
               })
               .tooltip({
                 container: options.container || editorOptions.container,
-                trigger: "hover",
-                placement: "bottom",
+                trigger: 'hover',
+                placement: 'bottom',
               })
-              .on("click", (e) => {
-                $(e.currentTarget).tooltip("hide");
+              .on('click', (e) => {
+                $(e.currentTarget).tooltip('hide');
               });
           }
           if (options && options.codeviewButton) {
-            $node.addClass("note-codeview-keep");
+            $node.addClass('note-codeview-keep');
           }
-        }
+        },
       )($node, options);
     },
 
     toggleBtn: function ($btn, isEnable) {
-      $btn.toggleClass("disabled", !isEnable);
-      $btn.attr("disabled", !isEnable);
+      $btn.toggleClass('disabled', !isEnable);
+      $btn.attr('disabled', !isEnable);
     },
 
     toggleBtnActive: function ($btn, isActive) {
-      $btn.toggleClass("active", isActive);
+      $btn.toggleClass('active', isActive);
     },
 
     onDialogShown: function ($dialog, handler) {
-      $dialog.one("shown.bs.modal", handler);
+      $dialog.one('shown.bs.modal', handler);
     },
 
     onDialogHidden: function ($dialog, handler) {
-      $dialog.one("hidden.bs.modal", handler);
+      $dialog.one('hidden.bs.modal', handler);
     },
 
     showDialog: function ($dialog) {
-      $dialog.modal("show");
+      $dialog.modal('show');
     },
 
     hideDialog: function ($dialog) {
-      $dialog.modal("hide");
+      $dialog.modal('hide');
     },
 
     createLayout: function ($note) {
       const $editor = (
         editorOptions.airMode
           ? airEditor([editingArea([codable(), airEditable()])])
-          : editorOptions.toolbarPosition === "bottom"
+          : editorOptions.toolbarPosition === 'bottom'
           ? editor([
               editingArea([codable(), editable()]),
               toolbar(),
@@ -338,11 +333,11 @@ const ui = function (editorOptions) {
       return {
         note: $note,
         editor: $editor,
-        toolbar: $editor.find(".note-toolbar"),
-        editingArea: $editor.find(".note-editing-area"),
-        editable: $editor.find(".note-editable"),
-        codable: $editor.find(".note-codable"),
-        statusbar: $editor.find(".note-statusbar"),
+        toolbar: $editor.find('.note-toolbar'),
+        editingArea: $editor.find('.note-editing-area'),
+        editable: $editor.find('.note-editable'),
+        codable: $editor.find('.note-codable'),
+        statusbar: $editor.find('.note-statusbar'),
       };
     },
 
@@ -356,22 +351,22 @@ const ui = function (editorOptions) {
 
 $.summernote = $.extend($.summernote, {
   ui_template: ui,
-  interface: "bs4",
+  interface: 'bs4',
 });
 
 $.summernote.options.styleTags = [
-  "p",
+  'p',
   {
-    title: "Blockquote",
-    tag: "blockquote",
-    className: "blockquote",
-    value: "blockquote",
+    title: 'Blockquote',
+    tag: 'blockquote',
+    className: 'blockquote',
+    value: 'blockquote',
   },
-  "pre",
-  "h1",
-  "h2",
-  "h3",
-  "h4",
-  "h5",
-  "h6",
+  'pre',
+  'h1',
+  'h2',
+  'h3',
+  'h4',
+  'h5',
+  'h6',
 ];

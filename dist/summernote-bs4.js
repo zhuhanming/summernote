@@ -7,7 +7,7 @@
  * Copyright 2013- Alan Hong and contributors
  * Summernote may be freely distributed under the MIT license.
  *
- * Date: 2022-03-01T17:03Z
+ * Date: 2022-03-01T17:13Z
  *
  */
 (function webpackUniversalModuleDefinition(root, factory) {
@@ -9444,18 +9444,18 @@ var HintPopover = /*#__PURE__*/function () {
     this.$editable = context.layoutInfo.editable;
     this.options = context.options;
     this.hint = this.options.hint || [];
-    this.direction = this.options.hintDirection || "bottom";
+    this.direction = this.options.hintDirection || 'bottom';
     this.hints = Array.isArray(this.hint) ? this.hint : [this.hint];
     this.events = {
-      "summernote.keyup": function summernoteKeyup(we, e) {
+      'summernote.keyup': function summernoteKeyup(we, e) {
         if (!e.isDefaultPrevented()) {
           _this.handleKeyup(e);
         }
       },
-      "summernote.keydown": function summernoteKeydown(we, e) {
+      'summernote.keydown': function summernoteKeydown(we, e) {
         _this.handleKeydown(e);
       },
-      "summernote.disable summernote.dialog.shown summernote.blur": function summernoteDisableSummernoteDialogShownSummernoteBlur() {
+      'summernote.disable summernote.dialog.shown summernote.blur': function summernoteDisableSummernoteDialogShownSummernoteBlur() {
         _this.hide();
       }
     };
@@ -9474,20 +9474,19 @@ var HintPopover = /*#__PURE__*/function () {
       this.lastWordRange = null;
       this.matchingWord = null;
       this.$popover = this.ui.popover({
-        className: "note-hint-popover",
-        hideArrow: true,
-        direction: ""
+        className: 'note-hint-popover',
+        direction: ''
       }).render().appendTo(this.options.container);
       this.$popover.hide();
-      this.$content = this.$popover.find(".popover-content,.note-popover-content");
-      this.$content.on("click", ".note-hint-item", function (e) {
-        _this2.$content.find(".active").removeClass("active");
+      this.$content = this.$popover.find('.popover-content,.note-popover-content');
+      this.$content.on('click', '.note-hint-item', function (e) {
+        _this2.$content.find('.active').removeClass('active');
 
-        external_root_jQuery_commonjs_jquery_commonjs2_jquery_amd_jquery_default()(e.currentTarget).addClass("active");
+        external_root_jQuery_commonjs_jquery_commonjs2_jquery_amd_jquery_default()(e.currentTarget).addClass('active');
 
         _this2.replace();
       });
-      this.$popover.on("mousedown", function (e) {
+      this.$popover.on('mousedown', function (e) {
         e.preventDefault();
       });
     }
@@ -9499,14 +9498,14 @@ var HintPopover = /*#__PURE__*/function () {
   }, {
     key: "selectItem",
     value: function selectItem($item) {
-      this.$content.find(".active").removeClass("active");
-      $item.addClass("active");
+      this.$content.find('.active').removeClass('active');
+      $item.addClass('active');
       this.$content[0].scrollTop = $item[0].offsetTop - this.$content.innerHeight() / 2;
     }
   }, {
     key: "moveDown",
     value: function moveDown() {
-      var $current = this.$content.find(".note-hint-item.active");
+      var $current = this.$content.find('.note-hint-item.active');
       var $next = $current.next();
 
       if ($next.length) {
@@ -9515,16 +9514,16 @@ var HintPopover = /*#__PURE__*/function () {
         var $nextGroup = $current.parent().next();
 
         if (!$nextGroup.length) {
-          $nextGroup = this.$content.find(".note-hint-group").first();
+          $nextGroup = this.$content.find('.note-hint-group').first();
         }
 
-        this.selectItem($nextGroup.find(".note-hint-item").first());
+        this.selectItem($nextGroup.find('.note-hint-item').first());
       }
     }
   }, {
     key: "moveUp",
     value: function moveUp() {
-      var $current = this.$content.find(".note-hint-item.active");
+      var $current = this.$content.find('.note-hint-item.active');
       var $prev = $current.prev();
 
       if ($prev.length) {
@@ -9533,16 +9532,16 @@ var HintPopover = /*#__PURE__*/function () {
         var $prevGroup = $current.parent().prev();
 
         if (!$prevGroup.length) {
-          $prevGroup = this.$content.find(".note-hint-group").last();
+          $prevGroup = this.$content.find('.note-hint-group').last();
         }
 
-        this.selectItem($prevGroup.find(".note-hint-item").last());
+        this.selectItem($prevGroup.find('.note-hint-item').last());
       }
     }
   }, {
     key: "replace",
     value: function replace() {
-      var $item = this.$content.find(".note-hint-item.active");
+      var $item = this.$content.find('.note-hint-item.active');
 
       if ($item.length) {
         var node = this.nodeFromItem($item); // If matchingWord length = 0 -> capture OK / open hint / but as mention capture "" (\w*)
@@ -9559,8 +9558,8 @@ var HintPopover = /*#__PURE__*/function () {
 
         this.lastWordRange.insertNode(node);
 
-        if (this.options.hintSelect === "next") {
-          var blank = document.createTextNode("");
+        if (this.options.hintSelect === 'next') {
+          var blank = document.createTextNode('');
           external_root_jQuery_commonjs_jquery_commonjs2_jquery_amd_jquery_default()(node).after(blank);
           range.createFromNodeBefore(blank).select();
         } else {
@@ -9569,18 +9568,18 @@ var HintPopover = /*#__PURE__*/function () {
 
         this.lastWordRange = null;
         this.hide();
-        this.context.invoke("editor.focus");
-        this.context.triggerEvent("change", this.$editable.html(), this.$editable);
+        this.context.invoke('editor.focus');
+        this.context.triggerEvent('change', this.$editable.html(), this.$editable);
       }
     }
   }, {
     key: "nodeFromItem",
     value: function nodeFromItem($item) {
-      var hint = this.hints[$item.data("index")];
-      var item = $item.data("item");
+      var hint = this.hints[$item.data('index')];
+      var item = $item.data('item');
       var node = hint.content ? hint.content(item) : item;
 
-      if (typeof node === "string") {
+      if (typeof node === 'string') {
         node = dom.createText(node);
       }
 
@@ -9594,7 +9593,7 @@ var HintPopover = /*#__PURE__*/function () {
       /*, idx */
       ) {
         var $item = external_root_jQuery_commonjs_jquery_commonjs2_jquery_amd_jquery_default()('<div class="note-hint-item"></div>');
-        $item.append(hint.template ? hint.template(item) : item + "");
+        $item.append(hint.template ? hint.template(item) : item + '');
         $item.data({
           index: hintIdx,
           item: item
@@ -9605,7 +9604,7 @@ var HintPopover = /*#__PURE__*/function () {
   }, {
     key: "handleKeydown",
     value: function handleKeydown(e) {
-      if (!this.$popover.is(":visible")) {
+      if (!this.$popover.is(':visible')) {
         return;
       }
 
@@ -9656,11 +9655,11 @@ var HintPopover = /*#__PURE__*/function () {
       var _this4 = this;
 
       if (!lists.contains([key.code.ENTER, key.code.UP, key.code.DOWN], e.keyCode)) {
-        var _range = this.context.invoke("editor.getLastRange");
+        var _range = this.context.invoke('editor.getLastRange');
 
         var wordRange, keyword;
 
-        if (this.options.hintMode === "words") {
+        if (this.options.hintMode === 'words') {
           wordRange = _range.getWordsRange(_range);
           keyword = wordRange.toString();
           this.hints.forEach(function (hint) {
@@ -9697,9 +9696,9 @@ var HintPopover = /*#__PURE__*/function () {
               }
             }); // select first .note-hint-item
 
-            this.$content.find(".note-hint-item:first").addClass("active"); // set position for popover after group is created
+            this.$content.find('.note-hint-item:first').addClass('active'); // set position for popover after group is created
 
-            if (this.direction === "top") {
+            if (this.direction === 'top') {
               this.$popover.css({
                 left: bnd.left,
                 top: bnd.top - this.$popover.outerHeight() - POPOVER_DIST
@@ -10108,25 +10107,25 @@ var toolbar = renderer.create('<div class="note-toolbar card-header" role="toolb
 var editingArea = renderer.create('<div class="note-editing-area"></div>');
 var codable = renderer.create('<textarea class="note-codable" aria-multiline="true"></textarea>');
 var editable = renderer.create('<div class="note-editable card-block" contentEditable="true" role="textbox" aria-multiline="true"></div>');
-var statusbar = renderer.create(['<output class="note-status-output" role="status" aria-live="polite"></output>', '<div class="note-statusbar" role="status">', '<div class="note-resizebar" aria-label="Resize">', '<div class="note-icon-bar"></div>', '<div class="note-icon-bar"></div>', '<div class="note-icon-bar"></div>', "</div>", "</div>"].join(""));
+var statusbar = renderer.create(['<output class="note-status-output" role="status" aria-live="polite"></output>', '<div class="note-statusbar" role="status">', '<div class="note-resizebar" aria-label="Resize">', '<div class="note-icon-bar"></div>', '<div class="note-icon-bar"></div>', '<div class="note-icon-bar"></div>', '</div>', '</div>'].join(''));
 var airEditor = renderer.create('<div class="note-editor note-airframe"></div>');
-var airEditable = renderer.create(['<div class="note-editable" contentEditable="true" role="textbox" aria-multiline="true"></div>', '<output class="note-status-output" role="status" aria-live="polite"></output>'].join(""));
+var airEditable = renderer.create(['<div class="note-editable" contentEditable="true" role="textbox" aria-multiline="true"></div>', '<output class="note-status-output" role="status" aria-live="polite"></output>'].join(''));
 var buttonGroup = renderer.create('<div class="note-btn-group btn-group"></div>');
 var dropdown = renderer.create('<div class="note-dropdown-menu dropdown-menu" role="list"></div>', function ($node, options) {
   var markup = Array.isArray(options.items) ? options.items.map(function (item) {
-    var value = typeof item === "string" ? item : item.value || "";
+    var value = typeof item === 'string' ? item : item.value || '';
     var content = options.template ? options.template(item) : item;
-    var option = summernote_bs4_typeof(item) === "object" ? item.option : undefined;
+    var option = summernote_bs4_typeof(item) === 'object' ? item.option : undefined;
     var dataValue = 'data-value="' + value + '"';
-    var dataOption = option !== undefined ? ' data-option="' + option + '"' : "";
-    return '<a class="dropdown-item" href="#" ' + (dataValue + dataOption) + ' role="listitem" aria-label="' + value + '">' + content + "</a>";
-  }).join("") : options.items;
+    var dataOption = option !== undefined ? ' data-option="' + option + '"' : '';
+    return '<a class="dropdown-item" href="#" ' + (dataValue + dataOption) + ' role="listitem" aria-label="' + value + '">' + content + '</a>';
+  }).join('') : options.items;
   $node.html(markup).attr({
-    "aria-label": options.title
+    'aria-label': options.title
   });
 
   if (options && options.codeviewKeepButton) {
-    $node.addClass("note-codeview-keep");
+    $node.addClass('note-codeview-keep');
   }
 });
 
@@ -10136,38 +10135,34 @@ var dropdownButtonContents = function dropdownButtonContents(contents) {
 
 var dropdownCheck = renderer.create('<div class="note-dropdown-menu dropdown-menu note-check" role="list"></div>', function ($node, options) {
   var markup = Array.isArray(options.items) ? options.items.map(function (item) {
-    var value = typeof item === "string" ? item : item.value || "";
+    var value = typeof item === 'string' ? item : item.value || '';
     var content = options.template ? options.template(item) : item;
-    return '<a class="dropdown-item" href="#" data-value="' + value + '" role="listitem" aria-label="' + item + '">' + icon(options.checkClassName) + " " + content + "</a>";
-  }).join("") : options.items;
+    return '<a class="dropdown-item" href="#" data-value="' + value + '" role="listitem" aria-label="' + item + '">' + icon(options.checkClassName) + ' ' + content + '</a>';
+  }).join('') : options.items;
   $node.html(markup).attr({
-    "aria-label": options.title
+    'aria-label': options.title
   });
 
   if (options && options.codeviewKeepButton) {
-    $node.addClass("note-codeview-keep");
+    $node.addClass('note-codeview-keep');
   }
 });
 var dialog = renderer.create('<div class="modal note-modal" aria-hidden="false" tabindex="-1" role="dialog"></div>', function ($node, options) {
   if (options.fade) {
-    $node.addClass("fade");
+    $node.addClass('fade');
   }
 
   $node.attr({
-    "aria-label": options.title
+    'aria-label': options.title
   });
-  $node.html(['<div class="modal-dialog">', '<div class="modal-content">', options.title ? '<div class="modal-header">' + '<h4 class="modal-title">' + options.title + "</h4>" + '<button type="button" class="close" data-dismiss="modal" aria-label="Close" aria-hidden="true">&times;</button>' + "</div>" : "", '<div class="modal-body">' + options.body + "</div>", options.footer ? '<div class="modal-footer">' + options.footer + "</div>" : "", "</div>", "</div>"].join(""));
+  $node.html(['<div class="modal-dialog">', '<div class="modal-content">', options.title ? '<div class="modal-header">' + '<h4 class="modal-title">' + options.title + '</h4>' + '<button type="button" class="close" data-dismiss="modal" aria-label="Close" aria-hidden="true">&times;</button>' + '</div>' : '', '<div class="modal-body">' + options.body + '</div>', options.footer ? '<div class="modal-footer">' + options.footer + '</div>' : '', '</div>', '</div>'].join(''));
 });
-var popover = renderer.create(['<div class="note-popover popover in">', '<div class="arrow"></div>', '<div class="popover-content note-children-container"></div>', "</div>"].join(""), function ($node, options) {
-  var direction = typeof options.direction !== "undefined" ? options.direction : "bottom";
+var popover = renderer.create(['<div class="note-popover popover in">', '<div class="popover-content note-children-container"></div>', '</div>'].join(''), function ($node, options) {
+  var direction = typeof options.direction !== 'undefined' ? options.direction : 'bottom';
   $node.addClass(direction);
-
-  if (options.hideArrow) {
-    $node.find(".arrow").hide();
-  }
 });
 var summernote_bs4_checkbox = renderer.create('<div class="form-check"></div>', function ($node, options) {
-  $node.html(['<label class="form-check-label"' + (options.id ? ' for="note-' + options.id + '"' : "") + ">", '<input type="checkbox" class="form-check-input"' + (options.id ? ' id="note-' + options.id + '"' : ""), options.checked ? " checked" : "", ' aria-label="' + (options.text ? options.text : "") + '"', ' aria-checked="' + (options.checked ? "true" : "false") + '"/>', " " + (options.text ? options.text : "") + "</label>"].join(""));
+  $node.html(['<label class="form-check-label"' + (options.id ? ' for="note-' + options.id + '"' : '') + '>', '<input type="checkbox" class="form-check-input"' + (options.id ? ' id="note-' + options.id + '"' : ''), options.checked ? ' checked' : '', ' aria-label="' + (options.text ? options.text : '') + '"', ' aria-checked="' + (options.checked ? 'true' : 'false') + '"/>', ' ' + (options.text ? options.text : '') + '</label>'].join(''));
 });
 
 var icon = function icon(iconClassName, tagName) {
@@ -10175,8 +10170,8 @@ var icon = function icon(iconClassName, tagName) {
     return iconClassName;
   }
 
-  tagName = tagName || "i";
-  return "<" + tagName + ' class="' + iconClassName + '"></' + tagName + ">";
+  tagName = tagName || 'i';
+  return '<' + tagName + ' class="' + iconClassName + '"></' + tagName + '>';
 };
 
 var ui = function ui(editorOptions) {
@@ -10211,19 +10206,19 @@ var ui = function ui(editorOptions) {
           for (var col = 0, colSize = colors.length; col < colSize; col++) {
             var color = colors[col];
             var colorName = colorsName[col];
-            buttons.push(['<button type="button" class="note-color-btn"', 'style="background-color:', color, '" ', 'data-event="', eventName, '" ', 'data-value="', color, '" ', 'title="', colorName, '" ', 'aria-label="', colorName, '" ', 'data-toggle="button" tabindex="-1"></button>'].join(""));
+            buttons.push(['<button type="button" class="note-color-btn"', 'style="background-color:', color, '" ', 'data-event="', eventName, '" ', 'data-value="', color, '" ', 'title="', colorName, '" ', 'aria-label="', colorName, '" ', 'data-toggle="button" tabindex="-1"></button>'].join(''));
           }
 
-          contents.push('<div class="note-color-row">' + buttons.join("") + "</div>");
+          contents.push('<div class="note-color-row">' + buttons.join('') + '</div>');
         }
 
-        $node.html(contents.join(""));
+        $node.html(contents.join(''));
 
         if (options.tooltip) {
-          $node.find(".note-color-btn").tooltip({
+          $node.find('.note-color-btn').tooltip({
             container: options.container || editorOptions.container,
-            trigger: "hover",
-            placement: "bottom"
+            trigger: 'hover',
+            placement: 'bottom'
           });
         }
       })($node, options);
@@ -10233,51 +10228,51 @@ var ui = function ui(editorOptions) {
         if (options && options.tooltip) {
           $node.attr({
             title: options.tooltip,
-            "aria-label": options.tooltip
+            'aria-label': options.tooltip
           }).tooltip({
             container: options.container || editorOptions.container,
-            trigger: "hover",
-            placement: "bottom"
-          }).on("click", function (e) {
-            external_root_jQuery_commonjs_jquery_commonjs2_jquery_amd_jquery_default()(e.currentTarget).tooltip("hide");
+            trigger: 'hover',
+            placement: 'bottom'
+          }).on('click', function (e) {
+            external_root_jQuery_commonjs_jquery_commonjs2_jquery_amd_jquery_default()(e.currentTarget).tooltip('hide');
           });
         }
 
         if (options && options.codeviewButton) {
-          $node.addClass("note-codeview-keep");
+          $node.addClass('note-codeview-keep');
         }
       })($node, options);
     },
     toggleBtn: function toggleBtn($btn, isEnable) {
-      $btn.toggleClass("disabled", !isEnable);
-      $btn.attr("disabled", !isEnable);
+      $btn.toggleClass('disabled', !isEnable);
+      $btn.attr('disabled', !isEnable);
     },
     toggleBtnActive: function toggleBtnActive($btn, isActive) {
-      $btn.toggleClass("active", isActive);
+      $btn.toggleClass('active', isActive);
     },
     onDialogShown: function onDialogShown($dialog, handler) {
-      $dialog.one("shown.bs.modal", handler);
+      $dialog.one('shown.bs.modal', handler);
     },
     onDialogHidden: function onDialogHidden($dialog, handler) {
-      $dialog.one("hidden.bs.modal", handler);
+      $dialog.one('hidden.bs.modal', handler);
     },
     showDialog: function showDialog($dialog) {
-      $dialog.modal("show");
+      $dialog.modal('show');
     },
     hideDialog: function hideDialog($dialog) {
-      $dialog.modal("hide");
+      $dialog.modal('hide');
     },
     createLayout: function createLayout($note) {
-      var $editor = (editorOptions.airMode ? airEditor([editingArea([codable(), airEditable()])]) : editorOptions.toolbarPosition === "bottom" ? editor([editingArea([codable(), editable()]), toolbar(), statusbar()]) : editor([toolbar(), editingArea([codable(), editable()]), statusbar()])).render();
+      var $editor = (editorOptions.airMode ? airEditor([editingArea([codable(), airEditable()])]) : editorOptions.toolbarPosition === 'bottom' ? editor([editingArea([codable(), editable()]), toolbar(), statusbar()]) : editor([toolbar(), editingArea([codable(), editable()]), statusbar()])).render();
       $editor.insertAfter($note);
       return {
         note: $note,
         editor: $editor,
-        toolbar: $editor.find(".note-toolbar"),
-        editingArea: $editor.find(".note-editing-area"),
-        editable: $editor.find(".note-editable"),
-        codable: $editor.find(".note-codable"),
-        statusbar: $editor.find(".note-statusbar")
+        toolbar: $editor.find('.note-toolbar'),
+        editingArea: $editor.find('.note-editing-area'),
+        editable: $editor.find('.note-editable'),
+        codable: $editor.find('.note-codable'),
+        statusbar: $editor.find('.note-statusbar')
       };
     },
     removeLayout: function removeLayout($note, layoutInfo) {
@@ -10290,14 +10285,14 @@ var ui = function ui(editorOptions) {
 
 (external_root_jQuery_commonjs_jquery_commonjs2_jquery_amd_jquery_default()).summernote = external_root_jQuery_commonjs_jquery_commonjs2_jquery_amd_jquery_default().extend((external_root_jQuery_commonjs_jquery_commonjs2_jquery_amd_jquery_default()).summernote, {
   ui_template: ui,
-  "interface": "bs4"
+  "interface": 'bs4'
 });
-(external_root_jQuery_commonjs_jquery_commonjs2_jquery_amd_jquery_default()).summernote.options.styleTags = ["p", {
-  title: "Blockquote",
-  tag: "blockquote",
-  className: "blockquote",
-  value: "blockquote"
-}, "pre", "h1", "h2", "h3", "h4", "h5", "h6"];
+(external_root_jQuery_commonjs_jquery_commonjs2_jquery_amd_jquery_default()).summernote.options.styleTags = ['p', {
+  title: 'Blockquote',
+  tag: 'blockquote',
+  className: 'blockquote',
+  value: 'blockquote'
+}, 'pre', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6'];
 })();
 
 /******/ 	return __webpack_exports__;
