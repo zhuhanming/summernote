@@ -1,30 +1,29 @@
-const CopyPlugin = require('copy-webpack-plugin');
-const HtmlWebPackPlugin = require('html-webpack-plugin');
-const MiniCssExtractPlugin = require('mini-css-extract-plugin');
-const path = require('path');
+const CopyPlugin = require("copy-webpack-plugin");
+const HtmlWebPackPlugin = require("html-webpack-plugin");
+const MiniCssExtractPlugin = require("mini-css-extract-plugin");
+const path = require("path");
 
-const { defaultStyle, styles, languages, examples } = require('./common');
+const { defaultStyle, styles, languages, examples } = require("./common");
 
 module.exports = {
-  mode: 'development',
+  mode: "development",
 
   resolve: {
-    roots: [path.resolve('./src')],
+    roots: [path.resolve("./src")],
   },
 
   entry: Object.fromEntries([
     // entries for each style
-    ...styles.map(style => 
-      [`summernote-${style.id}`, `./src/styles/${style.id}/summernote-${style.id}.js`]
-    ),
+    ...styles.map((style) => [
+      `summernote-${style.id}`,
+      `./src/styles/${style.id}/summernote-${style.id}.js`,
+    ]),
     // entries for each language
-    ...languages.map(lang => 
-      [`lang/${lang}`, `./src/lang/${lang}.js`]
-    ),
+    ...languages.map((lang) => [`lang/${lang}`, `./src/lang/${lang}.js`]),
   ]),
 
   externals: {
-    jquery: 'jQuery',
+    jquery: "jQuery",
   },
 
   module: {
@@ -32,52 +31,51 @@ module.exports = {
       {
         test: /\.js$/i,
         exclude: /node_modules/,
-        use: [
-          'babel-loader',
-        ],
+        use: ["babel-loader"],
       },
       {
         test: /\.(sa|sc|c)ss$/i,
         exclude: /node_modules/,
         use: [
-          'style-loader',
-          'css-loader',
-          'resolve-url-loader',
-          'sass-loader',
+          "style-loader",
+          "css-loader",
+          "resolve-url-loader",
+          "sass-loader",
         ],
       },
       {
         test: /\.(png|jpe?g|gif|svg|woff|woff2|ttf|otf|eot)$/i,
         exclude: /node_modules/,
-        type: 'asset/resource',
+        type: "asset/resource",
       },
     ],
   },
 
   plugins: [
     new MiniCssExtractPlugin({
-      filename: '[name].css',
+      filename: "[name].css",
     }),
     new CopyPlugin({
       patterns: [
         {
-          from: 'examples',
-          to: 'examples',
+          from: "examples",
+          to: "examples",
         },
         {
-          from: 'plugin',
-          to: 'plugin',
+          from: "plugin",
+          to: "plugin",
         },
       ],
     }),
     // Testing pages for each style
-    ...styles.map(style => 
-      new HtmlWebPackPlugin({
-        chunks: [`summernote-${style.id}`],
-        template: `./src/styles/${style.id}/summernote-${style.id}.html`,
-        styles: styles,
-        filename: `summernote-${style.id}.html`,
-      })
+    ...styles.map(
+      (style) =>
+        new HtmlWebPackPlugin({
+          chunks: [`summernote-${style.id}`],
+          template: `./src/styles/${style.id}/summernote-${style.id}.html`,
+          styles: styles,
+          filename: `summernote-${style.id}.html`,
+        })
     ),
     // Generating the index page for examples from template
     new HtmlWebPackPlugin({
@@ -88,7 +86,7 @@ module.exports = {
     }),
   ],
 
-  devtool: 'source-map',
+  devtool: "source-map",
 
   // Open the default style page for testing
   devServer: {

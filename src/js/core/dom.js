@@ -1,10 +1,10 @@
-import $ from 'jquery';
-import func from './func';
-import lists from './lists';
-import env from './env';
+import $ from "jquery";
+import func from "./func";
+import lists from "./lists";
+import env from "./env";
 
 const NBSP_CHAR = String.fromCharCode(160);
-const ZERO_WIDTH_NBSP_CHAR = '\ufeff';
+const ZERO_WIDTH_NBSP_CHAR = "\ufeff";
 
 /**
  * @method isEditable
@@ -15,7 +15,7 @@ const ZERO_WIDTH_NBSP_CHAR = '\ufeff';
  * @return {Boolean}
  */
 function isEditable(node) {
-  return node && $(node).hasClass('note-editable');
+  return node && $(node).hasClass("note-editable");
 }
 
 /**
@@ -27,7 +27,7 @@ function isEditable(node) {
  * @return {Boolean}
  */
 function isControlSizing(node) {
-  return node && $(node).hasClass('note-control-sizing');
+  return node && $(node).hasClass("note-control-sizing");
 }
 
 /**
@@ -40,7 +40,7 @@ function isControlSizing(node) {
  */
 function makePredByNodeName(nodeName) {
   nodeName = nodeName.toUpperCase();
-  return function(node) {
+  return function (node) {
     return node && node.nodeName.toUpperCase() === nodeName;
   };
 }
@@ -74,7 +74,12 @@ function isElement(node) {
  * @see http://www.w3.org/html/wg/drafts/html/master/syntax.html#void-elements
  */
 function isVoid(node) {
-  return node && /^BR|^IMG|^HR|^IFRAME|^BUTTON|^INPUT|^AUDIO|^VIDEO|^EMBED/.test(node.nodeName.toUpperCase());
+  return (
+    node &&
+    /^BR|^IMG|^HR|^IFRAME|^BUTTON|^INPUT|^AUDIO|^VIDEO|^EMBED/.test(
+      node.nodeName.toUpperCase()
+    )
+  );
 }
 
 function isPara(node) {
@@ -90,45 +95,47 @@ function isHeading(node) {
   return node && /^H[1-7]/.test(node.nodeName.toUpperCase());
 }
 
-const isPre = makePredByNodeName('PRE');
+const isPre = makePredByNodeName("PRE");
 
-const isLi = makePredByNodeName('LI');
+const isLi = makePredByNodeName("LI");
 
 function isPurePara(node) {
   return isPara(node) && !isLi(node);
 }
 
-const isTable = makePredByNodeName('TABLE');
+const isTable = makePredByNodeName("TABLE");
 
-const isData = makePredByNodeName('DATA');
+const isData = makePredByNodeName("DATA");
 
 function isInline(node) {
-  return !isBodyContainer(node) &&
-         !isList(node) &&
-         !isHr(node) &&
-         !isPara(node) &&
-         !isTable(node) &&
-         !isBlockquote(node) &&
-         !isData(node);
+  return (
+    !isBodyContainer(node) &&
+    !isList(node) &&
+    !isHr(node) &&
+    !isPara(node) &&
+    !isTable(node) &&
+    !isBlockquote(node) &&
+    !isData(node)
+  );
 }
 
 function isList(node) {
   return node && /^UL|^OL/.test(node.nodeName.toUpperCase());
 }
 
-const isHr = makePredByNodeName('HR');
+const isHr = makePredByNodeName("HR");
 
 function isCell(node) {
   return node && /^TD|^TH/.test(node.nodeName.toUpperCase());
 }
 
-const isBlockquote = makePredByNodeName('BLOCKQUOTE');
+const isBlockquote = makePredByNodeName("BLOCKQUOTE");
 
 function isBodyContainer(node) {
   return isCell(node) || isBlockquote(node) || isEditable(node);
 }
 
-const isAnchor = makePredByNodeName('A');
+const isAnchor = makePredByNodeName("A");
 
 function isParaInline(node) {
   return isInline(node) && !!ancestor(node, isPara);
@@ -138,7 +145,7 @@ function isBodyInline(node) {
   return isInline(node) && !ancestor(node, isPara);
 }
 
-const isBody = makePredByNodeName('BODY');
+const isBody = makePredByNodeName("BODY");
 
 /**
  * returns whether nodeB is closest sibling of nodeA
@@ -148,8 +155,7 @@ const isBody = makePredByNodeName('BODY');
  * @return {Boolean}
  */
 function isClosestSibling(nodeA, nodeB) {
-  return nodeA.nextSibling === nodeB ||
-         nodeA.previousSibling === nodeB;
+  return nodeA.nextSibling === nodeB || nodeA.previousSibling === nodeB;
 }
 
 /**
@@ -178,7 +184,7 @@ function withClosestSiblings(node, pred) {
  * - [workaround] old IE only works with &nbsp;
  * - [workaround] IE11 and other browser works with bogus br
  */
-const blankHTML = env.isMSIE && env.browserVersion < 11 ? '&nbsp;' : '<br>';
+const blankHTML = env.isMSIE && env.browserVersion < 11 ? "&nbsp;" : "<br>";
 
 /**
  * @method nodeLength
@@ -207,7 +213,11 @@ function nodeLength(node) {
  */
 function deepestChildIsEmpty(node) {
   do {
-    if (node.firstElementChild === null || node.firstElementChild.innerHTML === '') break;
+    if (
+      node.firstElementChild === null ||
+      node.firstElementChild.innerHTML === ""
+    )
+      break;
   } while ((node = node.firstElementChild));
 
   return isEmpty(node);
@@ -227,7 +237,7 @@ function isEmpty(node) {
   } else if (!isText(node) && len === 1 && node.innerHTML === blankHTML) {
     // ex) <p><br></p>, <span><br></span>
     return true;
-  } else if (lists.all(node.childNodes, isText) && node.innerHTML === '') {
+  } else if (lists.all(node.childNodes, isText) && node.innerHTML === "") {
     // ex) <p></p>, <span></span>
     return true;
   }
@@ -252,8 +262,12 @@ function paddingBlankHTML(node) {
  */
 function ancestor(node, pred) {
   while (node) {
-    if (pred(node)) { return node; }
-    if (isEditable(node)) { break; }
+    if (pred(node)) {
+      return node;
+    }
+    if (isEditable(node)) {
+      break;
+    }
 
     node = node.parentNode;
   }
@@ -270,9 +284,15 @@ function singleChildAncestor(node, pred) {
   node = node.parentNode;
 
   while (node) {
-    if (nodeLength(node) !== 1) { break; }
-    if (pred(node)) { return node; }
-    if (isEditable(node)) { break; }
+    if (nodeLength(node) !== 1) {
+      break;
+    }
+    if (pred(node)) {
+      return node;
+    }
+    if (isEditable(node)) {
+      break;
+    }
 
     node = node.parentNode;
   }
@@ -289,7 +309,7 @@ function listAncestor(node, pred) {
   pred = pred || func.fail;
 
   const ancestors = [];
-  ancestor(node, function(el) {
+  ancestor(node, function (el) {
     if (!isEditable(el)) {
       ancestors.push(el);
     }
@@ -332,7 +352,9 @@ function listPrev(node, pred) {
 
   const nodes = [];
   while (node) {
-    if (pred(node)) { break; }
+    if (pred(node)) {
+      break;
+    }
     nodes.push(node);
     node = node.previousSibling;
   }
@@ -350,7 +372,9 @@ function listNext(node, pred) {
 
   const nodes = [];
   while (node) {
-    if (pred(node)) { break; }
+    if (pred(node)) {
+      break;
+    }
     nodes.push(node);
     node = node.nextSibling;
   }
@@ -389,7 +413,7 @@ function listDescendant(node, pred) {
  */
 function wrap(node, wrapperName) {
   const parent = node.parentNode;
-  const wrapper = $('<' + wrapperName + '>')[0];
+  const wrapper = $("<" + wrapperName + ">")[0];
 
   parent.insertBefore(wrapper, node);
   wrapper.appendChild(node);
@@ -421,7 +445,7 @@ function insertAfter(node, preceding) {
  * @param {Collection} aChild
  */
 function appendChildNodes(node, aChild) {
-  $.each(aChild, function(idx, child) {
+  $.each(aChild, function (idx, child) {
     node.appendChild(child);
   });
   return node;
@@ -610,11 +634,12 @@ function nextPoint(point, isSkipInnerOffset) {
  * @return {BoundaryPoint}
  */
 function nextPointWithEmptyNode(point, isSkipInnerOffset) {
-  let node, offset = 0;
+  let node,
+    offset = 0;
 
   // if node is empty string node, return current node's sibling.
   if (isEmpty(point.node)) {
-    if(point.node === null){
+    if (point.node === null) {
       return null;
     }
 
@@ -640,7 +665,6 @@ function nextPointWithEmptyNode(point, isSkipInnerOffset) {
       node = point.node.nextSibling;
       offset = 0;
     }
-
   } else if (hasChildren(point.node)) {
     node = point.node.childNodes[point.offset];
     offset = 0;
@@ -669,13 +693,13 @@ function nextPointWithEmptyNode(point, isSkipInnerOffset) {
 }
 
 /*
-* returns the next Text node index or 0 if not found.
-*/
+ * returns the next Text node index or 0 if not found.
+ */
 function getNextTextNode(actual) {
-  if(!actual.nextSibling) return undefined;
-  if(actual.parent !== actual.nextSibling.parent) return undefined;
+  if (!actual.nextSibling) return undefined;
+  if (actual.parent !== actual.nextSibling.parent) return undefined;
 
-  if(isText(actual.nextSibling) ) return actual.nextSibling;
+  if (isText(actual.nextSibling)) return actual.nextSibling;
   else return getNextTextNode(actual.nextSibling);
 }
 
@@ -703,7 +727,10 @@ function isVisiblePoint(point) {
 
   const leftNode = point.node.childNodes[point.offset - 1];
   const rightNode = point.node.childNodes[point.offset];
-  if ((!leftNode || isVoid(leftNode)) && (!rightNode || isVoid(rightNode)) || isTable(rightNode)) {
+  if (
+    ((!leftNode || isVoid(leftNode)) && (!rightNode || isVoid(rightNode))) ||
+    isTable(rightNode)
+  ) {
     return true;
   }
 
@@ -760,7 +787,7 @@ function isCharPoint(point) {
   }
 
   const ch = point.node.nodeValue.charAt(point.offset - 1);
-  return ch && (ch !== ' ' && ch !== NBSP_CHAR);
+  return ch && ch !== " " && ch !== NBSP_CHAR;
 }
 
 /**
@@ -775,7 +802,7 @@ function isSpacePoint(point) {
   }
 
   const ch = point.node.nodeValue.charAt(point.offset - 1);
-  return ch === ' ' || ch === NBSP_CHAR;
+  return ch === " " || ch === NBSP_CHAR;
 }
 
 /**
@@ -796,9 +823,10 @@ function walkPoint(startPoint, endPoint, handler, isSkipInnerOffset) {
       break;
     }
 
-    const isSkipOffset = isSkipInnerOffset &&
-                       startPoint.node !== point.node &&
-                       endPoint.node !== point.node;
+    const isSkipOffset =
+      isSkipInnerOffset &&
+      startPoint.node !== point.node &&
+      endPoint.node !== point.node;
     point = nextPointWithEmptyNode(point, isSkipOffset);
   }
 }
@@ -917,37 +945,42 @@ function splitTree(root, point, options) {
   // Filter elements with sibling elements
   if (ancestors.length > 2) {
     let domList = ancestors.slice(0, ancestors.length - 1);
-    let ifHasNextSibling = domList.find(item => item.nextSibling);
+    let ifHasNextSibling = domList.find((item) => item.nextSibling);
     if (ifHasNextSibling && point.offset != 0 && isRightEdgePoint(point)) {
-        let nestSibling = ifHasNextSibling.nextSibling;
-        let textNode;
-        if (nestSibling.nodeType == 1) {
-            textNode = nestSibling.childNodes[0];
-            ancestors = listAncestor(textNode, func.eq(root));
-            point = {
-                node: textNode,
-                offset: 0,
-            };
-        }
-        else if (nestSibling.nodeType == 3 && !nestSibling.data.match(/[\n\r]/g)) {
-            textNode = nestSibling;
-            ancestors = listAncestor(textNode, func.eq(root));
-            point = {
-                node: textNode,
-                offset: 0,
-            };
-        }
+      let nestSibling = ifHasNextSibling.nextSibling;
+      let textNode;
+      if (nestSibling.nodeType == 1) {
+        textNode = nestSibling.childNodes[0];
+        ancestors = listAncestor(textNode, func.eq(root));
+        point = {
+          node: textNode,
+          offset: 0,
+        };
+      } else if (
+        nestSibling.nodeType == 3 &&
+        !nestSibling.data.match(/[\n\r]/g)
+      ) {
+        textNode = nestSibling;
+        ancestors = listAncestor(textNode, func.eq(root));
+        point = {
+          node: textNode,
+          offset: 0,
+        };
+      }
     }
   }
-  return ancestors.reduce(function(node, parent) {
+  return ancestors.reduce(function (node, parent) {
     if (node === point.node) {
       node = splitNode(point, options);
     }
 
-    return splitNode({
-      node: parent,
-      offset: node ? position(node) : nodeLength(parent),
-    }, options);
+    return splitNode(
+      {
+        node: parent,
+        offset: node ? position(node) : nodeLength(parent),
+      },
+      options
+    );
   });
 }
 
@@ -976,10 +1009,12 @@ function splitPoint(point, isInline) {
   }
 
   // if splitRoot is exists, split with splitTree
-  let pivot = splitRoot && splitTree(splitRoot, point, {
-    isSkipPaddingBlankHTML: isInline,
-    isNotSplitEdgePoint: isInline,
-  });
+  let pivot =
+    splitRoot &&
+    splitTree(splitRoot, point, {
+      isSkipPaddingBlankHTML: isInline,
+      isNotSplitEdgePoint: isInline,
+    });
 
   // if container is point.node, find pivot with point.offset
   if (!pivot && container === point.node) {
@@ -1009,8 +1044,12 @@ function createText(text) {
  * @param {Boolean} isRemoveChild
  */
 function remove(node, isRemoveChild) {
-  if (!node || !node.parentNode) { return; }
-  if (node.removeNode) { return node.removeNode(isRemoveChild); }
+  if (!node || !node.parentNode) {
+    return;
+  }
+  if (node.removeNode) {
+    return node.removeNode(isRemoveChild);
+  }
 
   const parent = node.parentNode;
   if (!isRemoveChild) {
@@ -1072,7 +1111,7 @@ function replace(node, nodeName) {
   return newNode;
 }
 
-const isTextarea = makePredByNodeName('TEXTAREA');
+const isTextarea = makePredByNodeName("TEXTAREA");
 
 /**
  * @param {jQuery} $node
@@ -1081,7 +1120,7 @@ const isTextarea = makePredByNodeName('TEXTAREA');
 function value($node, stripLinebreaks) {
   const val = isTextarea($node[0]) ? $node.val() : $node.html();
   if (stripLinebreaks) {
-    return val.replace(/[\n\r]/g, '');
+    return val.replace(/[\n\r]/g, "");
   }
   return val;
 }
@@ -1099,13 +1138,15 @@ function html($node, isNewlineOnBlock) {
 
   if (isNewlineOnBlock) {
     const regexTag = /<(\/?)(\b(?!!)[^>\s]*)(.*?)(\s*\/?>)/g;
-    markup = markup.replace(regexTag, function(match, endSlash, name) {
+    markup = markup.replace(regexTag, function (match, endSlash, name) {
       name = name.toUpperCase();
-      const isEndOfInlineContainer = /^DIV|^TD|^TH|^P|^LI|^H[1-7]/.test(name) &&
-                                   !!endSlash;
-      const isBlockNode = /^BLOCKQUOTE|^TABLE|^TBODY|^TR|^HR|^UL|^OL/.test(name);
+      const isEndOfInlineContainer =
+        /^DIV|^TD|^TH|^P|^LI|^H[1-7]/.test(name) && !!endSlash;
+      const isBlockNode = /^BLOCKQUOTE|^TABLE|^TBODY|^TR|^HR|^UL|^OL/.test(
+        name
+      );
 
-      return match + ((isEndOfInlineContainer || isBlockNode) ? '\n' : '');
+      return match + (isEndOfInlineContainer || isBlockNode ? "\n" : "");
     });
     markup = markup.trim();
   }
@@ -1125,13 +1166,13 @@ function posFromPlaceholder(placeholder) {
 }
 
 function attachEvents($node, events) {
-  Object.keys(events).forEach(function(key) {
+  Object.keys(events).forEach(function (key) {
     $node.on(key, events[key]);
   });
 }
 
 function detachEvents($node, events) {
-  Object.keys(events).forEach(function(key) {
+  Object.keys(events).forEach(function (key) {
     $node.off(key, events[key]);
   });
 }
@@ -1145,7 +1186,9 @@ function detachEvents($node, events) {
  * @param {Node} an HTML DOM node
  */
 function isCustomStyleTag(node) {
-  return node && !isText(node) && lists.contains(node.classList, 'note-styletag');
+  return (
+    node && !isText(node) && lists.contains(node.classList, "note-styletag")
+  );
 }
 
 export default {
@@ -1179,15 +1222,15 @@ export default {
   isBlockquote,
   isBodyContainer,
   isAnchor,
-  isDiv: makePredByNodeName('DIV'),
+  isDiv: makePredByNodeName("DIV"),
   isLi,
-  isBR: makePredByNodeName('BR'),
-  isSpan: makePredByNodeName('SPAN'),
-  isB: makePredByNodeName('B'),
-  isU: makePredByNodeName('U'),
-  isS: makePredByNodeName('S'),
-  isI: makePredByNodeName('I'),
-  isImg: makePredByNodeName('IMG'),
+  isBR: makePredByNodeName("BR"),
+  isSpan: makePredByNodeName("SPAN"),
+  isB: makePredByNodeName("B"),
+  isU: makePredByNodeName("U"),
+  isS: makePredByNodeName("S"),
+  isI: makePredByNodeName("I"),
+  isImg: makePredByNodeName("IMG"),
   isTextarea,
   deepestChildIsEmpty,
   isEmpty,

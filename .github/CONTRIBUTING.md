@@ -1,10 +1,12 @@
 ## Contributing
-* Pull requests are welcome
-* Please `don't include dist/* files` on your commits.
+
+- Pull requests are welcome
+- Please `don't include dist/* files` on your commits.
 
 ## Coding convention
-* eslint: https://eslint.org
-* eslint rule: https://github.com/summernote/summernote/blob/master/.eslintrc
+
+- eslint: https://eslint.org
+- eslint rule: https://github.com/summernote/summernote/blob/master/.eslintrc
 
 ## Build summernote
 
@@ -17,10 +19,13 @@ $ yarn install
 $ yarn build
 
 ```
+
 At this point, you should now have a `dist/` directory populated with everything you need to use summernote.
 
 ## Start local server for developing summernote.
+
 run local server with webpack-dev-server and watch.
+
 ```bash
 $ yarn dev
 # Open a browser on http://localhost:3000.
@@ -28,10 +33,13 @@ $ yarn dev
 ```
 
 ## Test summernote
+
 run tests with Karma and PhantomJS
+
 ```bash
 $ yarn test
 ```
+
 If you want run tests on other browser,
 change the values for `browsers` properties in `karma.conf.js`.
 
@@ -69,6 +77,7 @@ $ yarn test:grep LinkDialog
 ```
 
 ## Prepush Hooks
+
 As part of this repo, we use [Husky](https://github.com/typicode/husky) for git hooks. We leverage the prepush hook to prevent bad commits.
 
 ## Document structure

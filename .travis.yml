@@ -6,16 +6,16 @@ cache:
   directories:
     - node_modules
 before_install:
-- sudo add-apt-repository ppa:fontforge/fontforge -y
-- sudo apt-get update -q
-- sudo apt-get install fontforge ttfautohint -y
+  - sudo add-apt-repository ppa:fontforge/fontforge -y
+  - sudo apt-get update -q
+  - sudo apt-get install fontforge ttfautohint -y
 before_script:
-- node --version
-- npm --version
+  - node --version
+  - npm --version
 script:
-- npm run test:travis
+  - npm run test:travis
 addons:
   sauce_connect:
-    username: 'summernoteis'
+    username: "summernoteis"
 after_success:
-- npm run coveralls
+  - npm run coveralls

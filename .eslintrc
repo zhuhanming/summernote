@@ -1,12 +1,10 @@
 {
-  "extends": "eslint:recommended",
-  "plugins": [
-    "chai-friendly"
-  ],
+  "extends": ["eslint:recommended", "prettier"],
+  "plugins": ["chai-friendly"],
   "rules": {
-    "indent": ["warn", 2, {"ArrayExpression": "off", "SwitchCase": 1}],
+    "indent": ["warn", 2, { "ArrayExpression": "off", "SwitchCase": 1 }],
     "semi": [2, "always"],
-    "space-before-function-paren": ["error", "never"],
+    "space-before-function-paren": 0,
     "no-useless-escape": 0,
     "no-unused-expressions": 0,
     "chai-friendly/no-unused-expressions": 2,
@@ -22,6 +20,6 @@
   },
   "parser": "@babel/eslint-parser",
   "parserOptions": {
-    "sourceType": "module",
+    "sourceType": "module"
   }
 }

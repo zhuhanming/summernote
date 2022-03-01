@@ -3,100 +3,104 @@
  * (c) 2013~ Alan Hong
  * summernote may be freely distributed under the MIT license./
  */
-import chai from 'chai';
-import func from 'src/js/core/func';
+import chai from "chai";
+import func from "src/js/core/func";
 
 var expect = chai.expect;
 
-describe('base:core.func', () => {
-  describe('eq', () => {
-    it('should return true if two values are same', () => {
+describe("base:core.func", () => {
+  describe("eq", () => {
+    it("should return true if two values are same", () => {
       expect(func.eq(1)(1)).to.be.ok;
     });
   });
 
-  describe('eq2', () => {
-    it('should return true if two values are same', () => {
+  describe("eq2", () => {
+    it("should return true if two values are same", () => {
       expect(func.eq2(1, 1)).to.be.ok;
     });
 
-    it('should return false if two values are not same', () => {
-      expect(func.eq2(1, '1')).to.be.not.ok;
+    it("should return false if two values are not same", () => {
+      expect(func.eq2(1, "1")).to.be.not.ok;
     });
   });
 
-  describe('peq2', () => {
-    it('should return true when two properties are same', () => {
-      expect(func.peq2('prop')({ prop: 'hello' }, { prop: 'hello' })).to.be.ok;
+  describe("peq2", () => {
+    it("should return true when two properties are same", () => {
+      expect(func.peq2("prop")({ prop: "hello" }, { prop: "hello" })).to.be.ok;
     });
 
-    it('should return false when two properties are not same', () => {
-      expect(func.peq2('prop')({ prop: 'hello' }, { prop: 'world' })).to.be.not.ok;
+    it("should return false when two properties are not same", () => {
+      expect(func.peq2("prop")({ prop: "hello" }, { prop: "world" })).to.be.not
+        .ok;
     });
   });
 
-  describe('ok', () => {
-    it('should return true', () => {
+  describe("ok", () => {
+    it("should return true", () => {
       expect(func.ok()).to.be.ok;
     });
   });
 
-  describe('fail', () => {
-    it('should return false', () => {
+  describe("fail", () => {
+    it("should return false", () => {
       expect(func.fail()).to.be.not.ok;
     });
   });
 
-  describe('not', () => {
-    it('should return opposite function', () => {
+  describe("not", () => {
+    it("should return opposite function", () => {
       expect(func.not(func.ok)()).to.be.not.ok;
       expect(func.not(func.fail)()).to.be.ok;
     });
   });
 
-  describe('and', () => {
-    it('should return composite function', () => {
+  describe("and", () => {
+    it("should return composite function", () => {
       expect(func.and(func.ok, func.ok)()).to.be.ok;
       expect(func.and(func.fail, func.ok)()).to.be.not.ok;
       expect(func.and(func.fail, func.fail)()).to.be.not.ok;
     });
   });
 
-  describe('invoke', () => {
-    it('should return function which invoke the method', () => {
-      expect(func.invoke(func, 'ok')()).to.be.ok;
-      expect(func.invoke(func, 'fail')()).to.be.not.ok;
+  describe("invoke", () => {
+    it("should return function which invoke the method", () => {
+      expect(func.invoke(func, "ok")()).to.be.ok;
+      expect(func.invoke(func, "fail")()).to.be.not.ok;
     });
   });
 
-  describe('uniqueId', () => {
-    it('should return uniqueId with the prefix as a parameter', () => {
+  describe("uniqueId", () => {
+    it("should return uniqueId with the prefix as a parameter", () => {
       func.resetUniqueId();
-      expect(func.uniqueId('note-')).to.be.equal('note-1');
-      expect(func.uniqueId('note-')).to.be.equal('note-2');
-      expect(func.uniqueId('note-')).to.be.equal('note-3');
+      expect(func.uniqueId("note-")).to.be.equal("note-1");
+      expect(func.uniqueId("note-")).to.be.equal("note-2");
+      expect(func.uniqueId("note-")).to.be.equal("note-3");
     });
   });
 
-  describe('invertObject', () => {
-    it('should return inverted object between keys and values', () => {
-      expect(func.invertObject({ keyA: 'valueA', keyB: 'valueB' }))
-        .to.deep.equal({ valueA: 'keyA', valueB: 'keyB' });
+  describe("invertObject", () => {
+    it("should return inverted object between keys and values", () => {
+      expect(
+        func.invertObject({ keyA: "valueA", keyB: "valueB" })
+      ).to.deep.equal({ valueA: "keyA", valueB: "keyB" });
     });
   });
 
-  describe('namespaceToCamel', () => {
-    it('should return camelcase text', () => {
-      expect(func.namespaceToCamel('upload.image')).to.be.equal('UploadImage');
+  describe("namespaceToCamel", () => {
+    it("should return camelcase text", () => {
+      expect(func.namespaceToCamel("upload.image")).to.be.equal("UploadImage");
     });
 
-    it('should return prefixed camelcase text', () => {
-      expect(func.namespaceToCamel('upload.image', 'summernote')).to.be.equal('summernoteUploadImage');
+    it("should return prefixed camelcase text", () => {
+      expect(func.namespaceToCamel("upload.image", "summernote")).to.be.equal(
+        "summernoteUploadImage"
+      );
     });
   });
 
-  describe('debounce', () => {
-    it('shouldnt execute immediately', () => {
+  describe("debounce", () => {
+    it("shouldnt execute immediately", () => {
       var hasHappened = false;
       var fn = func.debounce(() => {
         hasHappened = true;
@@ -107,7 +111,7 @@ describe('base:core.func', () => {
       expect(hasHappened).to.be.false;
     });
 
-    it('should execute after delay', (done) => {
+    it("should execute after delay", (done) => {
       var hasHappened = false;
       var fn = func.debounce(() => {
         hasHappened = true;
@@ -121,7 +125,7 @@ describe('base:core.func', () => {
       }, 101);
     });
 
-    it('should only happen once', (done) => {
+    it("should only happen once", (done) => {
       var count = 0;
       var fn = func.debounce(() => {
         count += 1;
@@ -138,15 +142,15 @@ describe('base:core.func', () => {
     });
   });
 
-  describe('isValidUrl', () => {
-    it('should return true with valid URLs', () => {
-      expect(func.isValidUrl('https://www.summernote.org')).to.be.ok;
-      expect(func.isValidUrl('http://summernote.org')).to.be.ok;
-      expect(func.isValidUrl('summernote.org')).to.be.ok;
+  describe("isValidUrl", () => {
+    it("should return true with valid URLs", () => {
+      expect(func.isValidUrl("https://www.summernote.org")).to.be.ok;
+      expect(func.isValidUrl("http://summernote.org")).to.be.ok;
+      expect(func.isValidUrl("summernote.org")).to.be.ok;
     });
 
-    it('should return false with invalid URLs', () => {
-      expect(func.isValidUrl('summernote')).to.be.not.ok;
+    it("should return false with invalid URLs", () => {
+      expect(func.isValidUrl("summernote")).to.be.not.ok;
     });
   });
 });

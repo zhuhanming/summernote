@@ -1,5 +1,4 @@
-Styles
-======
+# Styles
 
 This directory contains multiple styles of Summernote.
 

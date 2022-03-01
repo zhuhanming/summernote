@@ -9,7 +9,11 @@ $sni-css-prefix: note-icon !default;
   font-style: normal;
   font-weight: 400;
   font-display: auto;
-  src: url("./font/summernote.eot?#iefix") format("embedded-opentype"), url("./font/summernote.woff2") format("woff2"), url("./font/summernote.woff") format("woff"), url("./font/summernote.ttf") format("truetype");}
+  src: url("./font/summernote.eot?#iefix") format("embedded-opentype"),
+    url("./font/summernote.woff2") format("woff2"),
+    url("./font/summernote.woff") format("woff"),
+    url("./font/summernote.ttf") format("truetype");
+}
 
 // Core
 
@@ -62,19 +66,17 @@ $sni-css-prefix: note-icon !default;
 
 @function char($character-code) {
   @if function-exists("selector-append") {
-    @return unquote("\"\\#{$character-code}\"");
+    @return unquote('"\\#{$character-code}"');
   }
 
-  @if "\\#{'x'}" == "\\x" {
+  @if "\\#{'x'}"== "\\x" {
     @return str-slice("\x", 1, 1) + $character-code;
-  }
-  @else {
-    @return #{"\"\\"}#{$character-code + "\""};
+  } @else {
+    @return #{'"\\'}#{$character-code + '"'};
   }
 }
 
 // Icons
-
 
 .note-icon-align::before {
   content: "\ea01";
@@ -299,4 +301,3 @@ $sni-css-prefix: note-icon !default;
 .note-icon-video::before {
   content: "\ea38";
 }
-

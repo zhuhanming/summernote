@@ -1,6 +1,6 @@
 // Core variables and mixins
-@import '../summernote/font.scss';
-@import '../summernote/elements.scss';
+@import "../summernote/font.scss";
+@import "../summernote/elements.scss";
 @import "scss/variables.scss";
 @import "scss/mixins.scss";
 
@@ -14,7 +14,7 @@
 @import "scss/tooltip.scss";
 @import "scss/popover.scss";
 
-@import '../summernote/common.scss';
+@import "../summernote/common.scss";
 
 .note-editor {
   .note-editing-area {
@@ -23,7 +23,8 @@
         width: 100%;
         border-collapse: collapse;
 
-         td, th {
+        td,
+        th {
           border: 1px solid #ececec;
           padding: 5px 3px;
         }
@@ -61,12 +62,12 @@
       display: inline-block;
     }
 
-     .help-list-item:hover {
+    .help-list-item:hover {
       background-color: #e0e0e0;
     }
   }
 
-   // [workaround] firefox fileinput
+  // [workaround] firefox fileinput
   @-moz-document url-prefix() {
     .note-image-input {
       height: auto;
@@ -74,10 +75,9 @@
   }
 }
 
-
 .help-list-item {
   label {
-    margin-bottom:5px;
-    display:inline-block;
+    margin-bottom: 5px;
+    display: inline-block;
   }
 }

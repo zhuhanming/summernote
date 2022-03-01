@@ -2,6 +2,7 @@
 Thank you for taking the time to help us improve Summernote.
 Please be sure that you are not submitting changes made to the files in the `dist/` folder, and only to the files contained in the `src/` folder.
 -->
+
 #### What does this PR do?
 
 - awesome stuff
@@ -22,9 +23,7 @@ Please be sure that you are not submitting changes made to the files in the `dis
 
 #### What are the relevant tickets?
 
-
 #### Screenshot (if for frontend)
-
 
 ### Checklist
 

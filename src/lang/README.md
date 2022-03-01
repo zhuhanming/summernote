@@ -1,5 +1,4 @@
-Languages
-=========
+# Languages
 
 This directory contains translated text messages of Summernote.
 

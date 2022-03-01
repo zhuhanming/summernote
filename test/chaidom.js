@@ -1,7 +1,7 @@
 import $ from 'jquery';
 import env from 'src/js/core/env';
 
-export default function(chai) {
+export default function (chai) {
   chai.dom = chai.dom || {};
 
   chai.dom.equalsIgnoreCase = (str1, str2) => {
@@ -30,29 +30,35 @@ export default function(chai) {
 
   chai.Assertion.addChainableMethod('await', (done) => {
     try {
-      setTimeout(() => { done(); }, 10);
+      setTimeout(() => {
+        done();
+      }, 10);
     } catch (e) {
       done(e);
     }
   });
 
-  chai.Assertion.addChainableMethod('equalsIgnoreCase', function(expected) {
+  chai.Assertion.addChainableMethod('equalsIgnoreCase', function (expected) {
     var actual = this._obj;
 
     return this.assert(
       chai.dom.equalsIgnoreCase(actual, expected),
       'expected ' + this._obj + ' to equal ' + expected + ' ignoring case',
-      'expected ' + this._obj + ' not to equal ' + expected + ' ignoring case'
+      'expected ' + this._obj + ' not to equal ' + expected + ' ignoring case',
     );
   });
 
-  chai.Assertion.addChainableMethod('equalsStyle', function(expected, style) {
+  chai.Assertion.addChainableMethod('equalsStyle', function (expected, style) {
     var $node = this._obj;
 
     return this.assert(
       chai.dom.equalsStyle($node, expected, style),
       'expected ' + this._obj.css(style) + ' to equal ' + expected + ' style',
-      'expected ' + this._obj.css(style) + ' not to equal ' + expected + ' style'
+      'expected ' +
+        this._obj.css(style) +
+        ' not to equal ' +
+        expected +
+        ' style',
     );
   });
 

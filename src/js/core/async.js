@@ -1,4 +1,4 @@
-import $ from 'jquery';
+import $ from "jquery";
 
 /**
  * @method readFileAsDataURL
@@ -32,16 +32,21 @@ export function readFileAsDataURL(file) {
  */
 export function createImage(url) {
   return $.Deferred((deferred) => {
-    const $img = $('<img>');
+    const $img = $("<img>");
 
-    $img.one('load', () => {
-      $img.off('error abort');
-      deferred.resolve($img);
-    }).one('error abort', () => {
-      $img.off('load').detach();
-      deferred.reject($img);
-    }).css({
-      display: 'none',
-    }).appendTo(document.body).attr('src', url);
+    $img
+      .one("load", () => {
+        $img.off("error abort");
+        deferred.resolve($img);
+      })
+      .one("error abort", () => {
+        $img.off("load").detach();
+        deferred.reject($img);
+      })
+      .css({
+        display: "none",
+      })
+      .appendTo(document.body)
+      .attr("src", url);
   }).promise();
 }

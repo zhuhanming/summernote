@@ -1,6 +1,6 @@
-import $ from 'jquery';
-import lists from '../core/lists';
-import dom from '../core/dom';
+import $ from "jquery";
+import lists from "../core/lists";
+import dom from "../core/dom";
 
 /**
  * Image popover module
@@ -16,10 +16,10 @@ export default class ImagePopover {
     this.options = context.options;
 
     this.events = {
-      'summernote.disable summernote.dialog.shown': () => {
+      "summernote.disable summernote.dialog.shown": () => {
         this.hide();
       },
-      'summernote.blur': (we, e) => {
+      "summernote.blur": (we, e) => {
         if (e.originalEvent && e.originalEvent.relatedTarget) {
           if (!this.$popover[0].contains(e.originalEvent.relatedTarget)) {
             this.hide();
@@ -36,13 +36,20 @@ export default class ImagePopover {
   }
 
   initialize() {
-    this.$popover = this.ui.popover({
-      className: 'note-image-popover',
-    }).render().appendTo(this.options.container);
-    const $content = this.$popover.find('.popover-content,.note-popover-content');
-    this.context.invoke('buttons.build', $content, this.options.popover.image);
+    this.$popover = this.ui
+      .popover({
+        className: "note-image-popover",
+      })
+      .render()
+      .appendTo(this.options.container);
+    const $content = this.$popover.find(
+      ".popover-content,.note-popover-content"
+    );
+    this.context.invoke("buttons.build", $content, this.options.popover.image);
 
-    this.$popover.on('mousedown', (e) => { e.preventDefault(); });
+    this.$popover.on("mousedown", (e) => {
+      e.preventDefault();
+    });
   }
 
   destroy() {
@@ -64,7 +71,7 @@ export default class ImagePopover {
       pos.left -= containerOffset.left;
 
       this.$popover.css({
-        display: 'block',
+        display: "block",
         left: pos.left,
         top: pos.top,
       });

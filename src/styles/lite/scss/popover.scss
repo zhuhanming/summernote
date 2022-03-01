@@ -12,11 +12,25 @@
   border: 1px solid $popover-border-color;
   border: 1px solid $popover-fallback-border-color;
 
-  &.in     { display: block; }
-  &.top    { margin-top:  -10px; padding: $tooltip-arrow-width 0; }
-  &.right  { margin-left:  10px; padding: 0 $tooltip-arrow-width; }
-  &.bottom { margin-top:   10px; padding: $tooltip-arrow-width 0; }
-  &.left   { margin-left: -10px; padding: 0 $tooltip-arrow-width; }
+  &.in {
+    display: block;
+  }
+  &.top {
+    margin-top: -10px;
+    padding: $tooltip-arrow-width 0;
+  }
+  &.right {
+    margin-left: 10px;
+    padding: 0 $tooltip-arrow-width;
+  }
+  &.bottom {
+    margin-top: 10px;
+    padding: $tooltip-arrow-width 0;
+  }
+  &.left {
+    margin-left: -10px;
+    padding: 0 $tooltip-arrow-width;
+  }
 }
 
 .note-popover {
@@ -69,7 +83,6 @@
       border-left-width: 0;
       border-right-color: #fff;
     }
-
   }
   &.left .note-popover-arrow {
     top: 50%;
@@ -89,7 +102,6 @@
   }
 }
 
-
 .note-popover-arrow {
   position: absolute;
   width: 0;
@@ -104,11 +116,9 @@
     border-color: transparent;
     border-style: solid;
 
-
-    content :  " ";
+    content: " ";
     border-width: 10px;
   }
-
 }
 
 .note-popover-content {

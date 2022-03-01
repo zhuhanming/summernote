@@ -3,7 +3,13 @@
 // Easily pump out default styles, as well as :hover, :focus, :active,
 // and disabled options for all buttons
 
-@mixin button-maker($color, $background, $focusBackground, $activeBackground, $border) {
+@mixin button-maker(
+  $color,
+  $background,
+  $focusBackground,
+  $activeBackground,
+  $border
+) {
   color: $color;
   background-color: $background;
   border-color: $border;
@@ -32,7 +38,13 @@
 }
 
 // Button sizes
-@mixin button-size($padding-vertical, $padding-horizontal, $font-size, $line-height, $border-radius) {
+@mixin button-size(
+  $padding-vertical,
+  $padding-horizontal,
+  $font-size,
+  $line-height,
+  $border-radius
+) {
   padding: $padding-vertical $padding-horizontal;
   font-size: $font-size;
   line-height: $line-height;

@@ -1,7 +1,7 @@
-import $ from 'jquery';
-import dom from '../core/dom';
-import range from '../core/range';
-import Bullet from '../editing/Bullet';
+import $ from "jquery";
+import dom from "../core/dom";
+import range from "../core/range";
+import Bullet from "../editing/Bullet";
 
 /**
  * @class editing.Typing
@@ -58,7 +58,10 @@ export default class Typing {
     // on paragraph: split paragraph
     if (splitRoot) {
       // if it is an empty line with li
-      if (dom.isLi(splitRoot) && (dom.isEmpty(splitRoot) || dom.deepestChildIsEmpty(splitRoot))) {
+      if (
+        dom.isLi(splitRoot) &&
+        (dom.isEmpty(splitRoot) || dom.deepestChildIsEmpty(splitRoot))
+      ) {
         // toggle UL/OL and escape
         this.bullet.toggleList(splitRoot.parentNode.nodeName);
         return;
@@ -75,10 +78,15 @@ export default class Typing {
           nextPara = $(dom.emptyPara)[0];
           // If the split is right before a <br>, remove it so that there's no "empty line"
           // after the split in the new blockquote created
-          if (dom.isRightEdgePoint(rng.getStartPoint()) && dom.isBR(rng.sc.nextSibling)) {
+          if (
+            dom.isRightEdgePoint(rng.getStartPoint()) &&
+            dom.isBR(rng.sc.nextSibling)
+          ) {
             $(rng.sc.nextSibling).remove();
           }
-          const split = dom.splitTree(blockquote, rng.getStartPoint(), { isDiscardEmptySplits: true });
+          const split = dom.splitTree(blockquote, rng.getStartPoint(), {
+            isDiscardEmptySplits: true,
+          });
           if (split) {
             split.parentNode.insertBefore(nextPara, split);
           } else {
@@ -89,19 +97,26 @@ export default class Typing {
 
           // not a blockquote, just insert the paragraph
           let emptyAnchors = dom.listDescendant(splitRoot, dom.isEmptyAnchor);
-          emptyAnchors = emptyAnchors.concat(dom.listDescendant(nextPara, dom.isEmptyAnchor));
+          emptyAnchors = emptyAnchors.concat(
+            dom.listDescendant(nextPara, dom.isEmptyAnchor)
+          );
 
           $.each(emptyAnchors, (idx, anchor) => {
             dom.remove(anchor);
           });
 
           // replace empty heading, pre or custom-made styleTag with P tag
-          if ((dom.isHeading(nextPara) || dom.isPre(nextPara) || dom.isCustomStyleTag(nextPara)) && dom.isEmpty(nextPara)) {
-            nextPara = dom.replace(nextPara, 'p');
+          if (
+            (dom.isHeading(nextPara) ||
+              dom.isPre(nextPara) ||
+              dom.isCustomStyleTag(nextPara)) &&
+            dom.isEmpty(nextPara)
+          ) {
+            nextPara = dom.replace(nextPara, "p");
           }
         }
       }
-    // no paragraph: insert empty paragraph
+      // no paragraph: insert empty paragraph
     } else {
       const next = rng.sc.childNodes[rng.so];
       nextPara = $(dom.emptyPara)[0];

@@ -1,5 +1,5 @@
-import $ from 'jquery';
-import lists from '../core/lists';
+import $ from "jquery";
+import lists from "../core/lists";
 
 const AIRMODE_POPOVER_X_OFFSET = -5;
 const AIRMODE_POPOVER_Y_OFFSET = 5;
@@ -16,7 +16,7 @@ export default class AirPopover {
     this.pageY = null;
 
     this.events = {
-      'summernote.contextmenu': (e) => {
+      "summernote.contextmenu": (e) => {
         if (this.options.editing) {
           e.preventDefault();
           e.stopPropagation();
@@ -24,11 +24,11 @@ export default class AirPopover {
           this.update(true);
         }
       },
-      'summernote.mousedown': (we, e) => {
+      "summernote.mousedown": (we, e) => {
         this.pageX = e.pageX;
         this.pageY = e.pageY;
       },
-      'summernote.keyup summernote.mouseup summernote.scroll': (we, e) => {
+      "summernote.keyup summernote.mouseup summernote.scroll": (we, e) => {
         if (this.options.editing && !this.onContextmenu) {
           this.pageX = e.pageX;
           this.pageY = e.pageY;
@@ -36,11 +36,12 @@ export default class AirPopover {
         }
         this.onContextmenu = false;
       },
-      'summernote.disable summernote.change summernote.dialog.shown summernote.blur': () => {
-        this.hide();
-      },
-      'summernote.focusout': () => {
-        if (!this.$popover.is(':active,:focus')) {
+      "summernote.disable summernote.change summernote.dialog.shown summernote.blur":
+        () => {
+          this.hide();
+        },
+      "summernote.focusout": () => {
+        if (!this.$popover.is(":active,:focus")) {
           this.hide();
         }
       },
@@ -52,17 +53,24 @@ export default class AirPopover {
   }
 
   initialize() {
-    this.$popover = this.ui.popover({
-      className: 'note-air-popover',
-    }).render().appendTo(this.options.container);
-    const $content = this.$popover.find('.popover-content');
+    this.$popover = this.ui
+      .popover({
+        className: "note-air-popover",
+      })
+      .render()
+      .appendTo(this.options.container);
+    const $content = this.$popover.find(".popover-content");
 
-    this.context.invoke('buttons.build', $content, this.options.popover.air);
+    this.context.invoke("buttons.build", $content, this.options.popover.air);
 
     // disable hiding this popover preemptively by 'summernote.blur' event.
-    this.$popover.on('mousedown', () => { this.hidable = false; });
+    this.$popover.on("mousedown", () => {
+      this.hidable = false;
+    });
     // (re-)enable hiding after 'summernote.blur' has been handled (aka. ignored).
-    this.$popover.on('mouseup', () => { this.hidable = true; });
+    this.$popover.on("mouseup", () => {
+      this.hidable = true;
+    });
   }
 
   destroy() {
@@ -70,7 +78,7 @@ export default class AirPopover {
   }
 
   update(forcelyOpen) {
-    const styleInfo = this.context.invoke('editor.currentStyle');
+    const styleInfo = this.context.invoke("editor.currentStyle");
     if (styleInfo.range && (!styleInfo.range.isCollapsed() || forcelyOpen)) {
       let rect = {
         left: this.pageX,
@@ -82,21 +90,21 @@ export default class AirPopover {
       rect.left -= containerOffset.left;
 
       this.$popover.css({
-        display: 'block',
+        display: "block",
         left: Math.max(rect.left, 0) + AIRMODE_POPOVER_X_OFFSET,
         top: rect.top + AIRMODE_POPOVER_Y_OFFSET,
       });
-      this.context.invoke('buttons.updateCurrentStyle', this.$popover);
+      this.context.invoke("buttons.updateCurrentStyle", this.$popover);
     } else {
       this.hide();
     }
   }
 
   updateCodeview(isCodeview) {
-    this.ui.toggleBtnActive(this.$popover.find('.btn-codeview'), isCodeview);
+    this.ui.toggleBtnActive(this.$popover.find(".btn-codeview"), isCodeview);
     if (isCodeview) {
       this.hide();
-    } 
+    }
   }
 
   hide() {

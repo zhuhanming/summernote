@@ -1,5 +1,4 @@
-Examples
-========
+# Examples
 
 This directory contains examples how to use Summernote in various ways.
 

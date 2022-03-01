@@ -26,16 +26,17 @@
   @include box-sizing();
 }
 
-
 .note-input::-webkit-input-placeholder {
   color: $gray-lighter;
 }
 
-.note-input:-moz-placeholder { /* Firefox 18- */
+.note-input:-moz-placeholder {
+  /* Firefox 18- */
   color: $gray-lighter;
 }
 
-.note-input::-moz-placeholder {  /* Firefox 19+ */
+.note-input::-moz-placeholder {
+  /* Firefox 19+ */
   color: $gray-lighter;
 }
 

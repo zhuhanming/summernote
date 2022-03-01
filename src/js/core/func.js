@@ -1,4 +1,4 @@
-import $ from 'jquery';
+import $ from "jquery";
 
 /**
  * @class core.func
@@ -9,7 +9,7 @@ import $ from 'jquery';
  * @alternateClassName func
  */
 function eq(itemA) {
-  return function(itemB) {
+  return function (itemB) {
     return itemA === itemB;
   };
 }
@@ -19,7 +19,7 @@ function eq2(itemA, itemB) {
 }
 
 function peq2(propName) {
-  return function(itemA, itemB) {
+  return function (itemA, itemB) {
     return itemA[propName] === itemB[propName];
   };
 }
@@ -33,13 +33,13 @@ function fail() {
 }
 
 function not(f) {
-  return function() {
+  return function () {
     return !f.apply(f, arguments);
   };
 }
 
 function and(fA, fB) {
-  return function(item) {
+  return function (item) {
     return fA(item) && fB(item);
   };
 }
@@ -49,7 +49,7 @@ function self(a) {
 }
 
 function invoke(obj, method) {
-  return function() {
+  return function () {
     return obj[method].apply(obj, arguments);
   };
 }
@@ -70,7 +70,7 @@ function resetUniqueId() {
  * @param {String} [prefix]
  */
 function uniqueId(prefix) {
-  const id = ++idCounter + '';
+  const id = ++idCounter + "";
   return prefix ? prefix + id : id;
 }
 
@@ -118,10 +118,16 @@ function invertObject(obj) {
  * @return {String}
  */
 function namespaceToCamel(namespace, prefix) {
-  prefix = prefix || '';
-  return prefix + namespace.split('.').map(function(name) {
-    return name.substring(0, 1).toUpperCase() + name.substring(1);
-  }).join('');
+  prefix = prefix || "";
+  return (
+    prefix +
+    namespace
+      .split(".")
+      .map(function (name) {
+        return name.substring(0, 1).toUpperCase() + name.substring(1);
+      })
+      .join("")
+  );
 }
 
 /**
@@ -136,7 +142,7 @@ function namespaceToCamel(namespace, prefix) {
  */
 function debounce(func, wait, immediate) {
   let timeout;
-  return function() {
+  return function () {
     const context = this;
     const args = arguments;
     const later = () => {
@@ -160,7 +166,8 @@ function debounce(func, wait, immediate) {
  * @return {Boolean}
  */
 function isValidUrl(url) {
-  const expression = /[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/gi;
+  const expression =
+    /[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/gi;
   return expression.test(url);
 }
 

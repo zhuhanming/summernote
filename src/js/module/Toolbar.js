@@ -1,4 +1,4 @@
-import $ from 'jquery';
+import $ from "jquery";
 export default class Toolbar {
   constructor(context) {
     this.context = context;
@@ -28,7 +28,7 @@ export default class Toolbar {
     if (!this.options.toolbar.length) {
       this.$toolbar.hide();
     } else {
-      this.context.invoke('buttons.build', this.$toolbar, this.options.toolbar);
+      this.context.invoke("buttons.build", this.$toolbar, this.options.toolbar);
     }
 
     if (this.options.toolbarContainer) {
@@ -37,13 +37,16 @@ export default class Toolbar {
 
     this.changeContainer(false);
 
-    this.$note.on('summernote.keyup summernote.mouseup summernote.change', () => {
-      this.context.invoke('buttons.updateCurrentStyle');
-    });
+    this.$note.on(
+      "summernote.keyup summernote.mouseup summernote.change",
+      () => {
+        this.context.invoke("buttons.updateCurrentStyle");
+      }
+    );
 
-    this.context.invoke('buttons.updateCurrentStyle');
+    this.context.invoke("buttons.updateCurrentStyle");
     if (this.options.followingToolbar) {
-      this.$window.on('scroll resize', this.followScroll);
+      this.$window.on("scroll resize", this.followScroll);
     }
   }
 
@@ -51,12 +54,12 @@ export default class Toolbar {
     this.$toolbar.children().remove();
 
     if (this.options.followingToolbar) {
-      this.$window.off('scroll resize', this.followScroll);
+      this.$window.off("scroll resize", this.followScroll);
     }
   }
 
   followScroll() {
-    if (this.$editor.hasClass('fullscreen')) {
+    if (this.$editor.hasClass("fullscreen")) {
       return false;
     }
 
@@ -75,31 +78,37 @@ export default class Toolbar {
     const editorOffsetTop = this.$editor.offset().top;
     const editorOffsetBottom = editorOffsetTop + editorHeight;
     const activateOffset = editorOffsetTop - otherBarHeight;
-    const deactivateOffsetBottom = editorOffsetBottom - otherBarHeight - toolbarHeight - statusbarHeight;
+    const deactivateOffsetBottom =
+      editorOffsetBottom - otherBarHeight - toolbarHeight - statusbarHeight;
 
-    if (!this.isFollowing &&
-      (currentOffset > activateOffset) && (currentOffset < deactivateOffsetBottom - toolbarHeight)) {
+    if (
+      !this.isFollowing &&
+      currentOffset > activateOffset &&
+      currentOffset < deactivateOffsetBottom - toolbarHeight
+    ) {
       this.isFollowing = true;
       this.$editable.css({
         marginTop: this.$toolbar.outerHeight(),
       });
       this.$toolbar.css({
-        position: 'fixed',
+        position: "fixed",
         top: otherBarHeight,
         width: editorWidth,
         zIndex: 1000,
       });
-    } else if (this.isFollowing &&
-      ((currentOffset < activateOffset) || (currentOffset > deactivateOffsetBottom))) {
+    } else if (
+      this.isFollowing &&
+      (currentOffset < activateOffset || currentOffset > deactivateOffsetBottom)
+    ) {
       this.isFollowing = false;
       this.$toolbar.css({
-        position: 'relative',
+        position: "relative",
         top: 0,
-        width: '100%',
-        zIndex: 'auto',
+        width: "100%",
+        zIndex: "auto",
       });
       this.$editable.css({
-        marginTop: '',
+        marginTop: "",
       });
     }
   }
@@ -118,13 +127,16 @@ export default class Toolbar {
   }
 
   updateFullscreen(isFullscreen) {
-    this.ui.toggleBtnActive(this.$toolbar.find('.btn-fullscreen'), isFullscreen);
+    this.ui.toggleBtnActive(
+      this.$toolbar.find(".btn-fullscreen"),
+      isFullscreen
+    );
 
     this.changeContainer(isFullscreen);
   }
 
   updateCodeview(isCodeview) {
-    this.ui.toggleBtnActive(this.$toolbar.find('.btn-codeview'), isCodeview);
+    this.ui.toggleBtnActive(this.$toolbar.find(".btn-codeview"), isCodeview);
     if (isCodeview) {
       this.deactivate();
     } else {
@@ -133,17 +145,17 @@ export default class Toolbar {
   }
 
   activate(isIncludeCodeview) {
-    let $btn = this.$toolbar.find('button');
+    let $btn = this.$toolbar.find("button");
     if (!isIncludeCodeview) {
-      $btn = $btn.not('.note-codeview-keep');
+      $btn = $btn.not(".note-codeview-keep");
     }
     this.ui.toggleBtn($btn, true);
   }
 
   deactivate(isIncludeCodeview) {
-    let $btn = this.$toolbar.find('button');
+    let $btn = this.$toolbar.find("button");
     if (!isIncludeCodeview) {
-      $btn = $btn.not('.note-codeview-keep');
+      $btn = $btn.not(".note-codeview-keep");
     }
     this.ui.toggleBtn($btn, false);
   }

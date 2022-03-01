@@ -251,7 +251,6 @@ $img-margin-right: 10px;
   }
 }
 
-
 /* Popover
  ------------------------------------------ */
 .note-popover.popover {
@@ -279,7 +278,8 @@ $img-margin-right: 10px;
   position: relative;
 }
 
-.note-popover .popover-content, .note-editor .note-toolbar {
+.note-popover .popover-content,
+.note-editor .note-toolbar {
   margin: 0;
   padding: 0 0 5px 5px;
 
@@ -307,14 +307,16 @@ $img-margin-right: 10px;
           z-index: 1;
           width: 5em;
           height: 5em;
-          background: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABIAAAASAgMAAAAroGbEAAAACVBMVEUAAIj4+Pjp6ekKlAqjAAAAAXRSTlMAQObYZgAAAAFiS0dEAIgFHUgAAAAJcEhZcwAACxMAAAsTAQCanBgAAAAHdElNRQfYAR0BKhmnaJzPAAAAG0lEQVQI12NgAAOtVatWMTCohoaGUY+EmIkEAEruEzK2J7tvAAAAAElFTkSuQmCC") repeat;
+          background: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABIAAAASAgMAAAAroGbEAAAACVBMVEUAAIj4+Pjp6ekKlAqjAAAAAXRSTlMAQObYZgAAAAFiS0dEAIgFHUgAAAAJcEhZcwAACxMAAAsTAQCanBgAAAAHdElNRQfYAR0BKhmnaJzPAAAAG0lEQVQI12NgAAOtVatWMTCohoaGUY+EmIkEAEruEzK2J7tvAAAAAElFTkSuQmCC")
+            repeat;
         }
         .note-dimension-picker-highlighted {
           position: absolute !important;
           z-index: 2;
           width: 1em;
           height: 1em;
-          background: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABIAAAASAgMAAAAroGbEAAAACVBMVEUAAIjd6vvD2f9LKLW+AAAAAXRSTlMAQObYZgAAAAFiS0dEAIgFHUgAAAAJcEhZcwAACxMAAAsTAQCanBgAAAAHdElNRQfYAR0BKwNDEVT0AAAAG0lEQVQI12NgAAOtVatWMTCohoaGUY+EmIkEAEruEzK2J7tvAAAAAElFTkSuQmCC") repeat;
+          background: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABIAAAASAgMAAAAroGbEAAAACVBMVEUAAIjd6vvD2f9LKLW+AAAAAXRSTlMAQObYZgAAAAFiS0dEAIgFHUgAAAAJcEhZcwAACxMAAAsTAQCanBgAAAAHdElNRQfYAR0BKwNDEVT0AAAAG0lEQVQI12NgAAOtVatWMTCohoaGUY+EmIkEAEruEzK2J7tvAAAAAElFTkSuQmCC")
+            repeat;
         }
       }
     }
@@ -322,11 +324,18 @@ $img-margin-right: 10px;
 
   .note-style {
     .dropdown-style {
-      blockquote, pre {
+      blockquote,
+      pre {
         margin: 0;
         padding: 5px 10px;
       }
-      h1, h2, h3, h4, h5, h6, p {
+      h1,
+      h2,
+      h3,
+      h4,
+      h5,
+      h6,
+      p {
         margin: 0;
         padding: 0;
       }
@@ -461,9 +470,10 @@ $img-margin-right: 10px;
   .modal-dialog {
     outline: 0;
     border-radius: 5px;
-    @include box-shadow(0 3px 9px rgba(0,0,0,.5));
+    @include box-shadow(0 3px 9px rgba(0, 0, 0, 0.5));
   }
-  .form-group { // overwrite BS's form-horizontal minus margins
+  .form-group {
+    // overwrite BS's form-horizontal minus margins
     margin-left: 0;
     margin-right: 0;
   }
@@ -593,7 +603,8 @@ $img-margin-right: 10px;
         display: block !important;
         padding: 3px;
 
-        &.active, &:hover {
+        &.active,
+        &:hover {
           display: block;
           clear: both;
           font-weight: 400;
@@ -612,7 +623,8 @@ $img-margin-right: 10px;
 
 /* Handle
  ------------------------------------------ */
-html, body {
+html,
+body {
   .note-fullscreen-body {
     overflow: hidden !important;
   }

@@ -1,8 +1,8 @@
-import $ from 'jquery';
-import env from './env';
-import func from './func';
-import lists from './lists';
-import dom from './dom';
+import $ from "jquery";
+import env from "./env";
+import func from "./func";
+import lists from "./lists";
+import dom from "./dom";
 
 /**
  * return boundaryPoint from TextRange, inspired by Andy Na's HuskyRange.js
@@ -25,7 +25,7 @@ function textRangeToPoint(textRange, isStart) {
       continue;
     }
     tester.moveToElementText(childNodes[offset]);
-    if (tester.compareEndPoints('StartToStart', textRange) >= 0) {
+    if (tester.compareEndPoints("StartToStart", textRange) >= 0) {
       break;
     }
     prevContainer = childNodes[offset];
@@ -36,13 +36,18 @@ function textRangeToPoint(textRange, isStart) {
     let curTextNode = null;
     textRangeStart.moveToElementText(prevContainer || container);
     textRangeStart.collapse(!prevContainer);
-    curTextNode = prevContainer ? prevContainer.nextSibling : container.firstChild;
+    curTextNode = prevContainer
+      ? prevContainer.nextSibling
+      : container.firstChild;
 
     const pointTester = textRange.duplicate();
-    pointTester.setEndPoint('StartToStart', textRangeStart);
-    let textCount = pointTester.text.replace(/[\r\n]/g, '').length;
+    pointTester.setEndPoint("StartToStart", textRangeStart);
+    let textCount = pointTester.text.replace(/[\r\n]/g, "").length;
 
-    while (textCount > curTextNode.nodeValue.length && curTextNode.nextSibling) {
+    while (
+      textCount > curTextNode.nodeValue.length &&
+      curTextNode.nextSibling
+    ) {
       textCount -= curTextNode.nodeValue.length;
       curTextNode = curTextNode.nextSibling;
     }
@@ -50,8 +55,12 @@ function textRangeToPoint(textRange, isStart) {
     // [workaround] enforce IE to re-reference curTextNode, hack
     const dummy = curTextNode.nodeValue; // eslint-disable-line
 
-    if (isStart && curTextNode.nextSibling && dom.isText(curTextNode.nextSibling) &&
-      textCount === curTextNode.nodeValue.length) {
+    if (
+      isStart &&
+      curTextNode.nextSibling &&
+      dom.isText(curTextNode.nextSibling) &&
+      textCount === curTextNode.nodeValue.length
+    ) {
       textCount -= curTextNode.nodeValue.length;
       curTextNode = curTextNode.nextSibling;
     }
@@ -72,7 +81,7 @@ function textRangeToPoint(textRange, isStart) {
  * @return {TextRange}
  */
 function pointToTextRange(point) {
-  const textRangeInfo = function(container, offset) {
+  const textRangeInfo = function (container, offset) {
     let node, isCollapseToStart;
 
     if (dom.isText(container)) {
@@ -103,19 +112,19 @@ function pointToTextRange(point) {
 
   textRange.moveToElementText(info.node);
   textRange.collapse(info.collapseToStart);
-  textRange.moveStart('character', info.offset);
+  textRange.moveStart("character", info.offset);
   return textRange;
 }
 
 /**
-   * Wrapped Range
-   *
-   * @constructor
-   * @param {Node} sc - start container
-   * @param {Number} so - start offset
-   * @param {Node} ec - end container
-   * @param {Number} eo - end offset
-   */
+ * Wrapped Range
+ *
+ * @constructor
+ * @param {Node} sc - start container
+ * @param {Number} so - start offset
+ * @param {Node} ec - end container
+ * @param {Number} eo - end offset
+ */
 class WrappedRange {
   constructor(sc, so, ec, eo) {
     this.sc = sc;
@@ -149,10 +158,13 @@ class WrappedRange {
         offset: this.so,
       });
 
-      textRange.setEndPoint('EndToEnd', pointToTextRange({
-        node: this.ec,
-        offset: this.eo,
-      }));
+      textRange.setEndPoint(
+        "EndToEnd",
+        pointToTextRange({
+          node: this.ec,
+          offset: this.eo,
+        })
+      );
 
       return textRange;
     }
@@ -207,7 +219,9 @@ class WrappedRange {
   scrollIntoView(container) {
     const height = $(container).height();
     if (container.scrollTop + height < this.sc.offsetTop) {
-      container.scrollTop += Math.abs(container.scrollTop + height - this.sc.offsetTop);
+      container.scrollTop += Math.abs(
+        container.scrollTop + height - this.sc.offsetTop
+      );
     }
 
     return this;
@@ -223,7 +237,7 @@ class WrappedRange {
      *                                - false: prefer to choose left node
      * @return {BoundaryPoint}
      */
-    const getVisiblePoint = function(point, isLeftToRight) {
+    const getVisiblePoint = function (point, isLeftToRight) {
       if (!point) {
         return point;
       }
@@ -236,12 +250,18 @@ class WrappedRange {
       //  - case 05. if the point is on the left edge and prefer to choose left node but the node is void
       //  - case 06. if the point is on the block node and there is no children
       if (dom.isVisiblePoint(point)) {
-        if (!dom.isEdgePoint(point) ||
-            (dom.isRightEdgePoint(point) && !isLeftToRight) ||
-            (dom.isLeftEdgePoint(point) && isLeftToRight) ||
-            (dom.isRightEdgePoint(point) && isLeftToRight && dom.isVoid(point.node.nextSibling)) ||
-            (dom.isLeftEdgePoint(point) && !isLeftToRight && dom.isVoid(point.node.previousSibling)) ||
-            (dom.isBlock(point.node) && dom.isEmpty(point.node))) {
+        if (
+          !dom.isEdgePoint(point) ||
+          (dom.isRightEdgePoint(point) && !isLeftToRight) ||
+          (dom.isLeftEdgePoint(point) && isLeftToRight) ||
+          (dom.isRightEdgePoint(point) &&
+            isLeftToRight &&
+            dom.isVoid(point.node.nextSibling)) ||
+          (dom.isLeftEdgePoint(point) &&
+            !isLeftToRight &&
+            dom.isVoid(point.node.previousSibling)) ||
+          (dom.isBlock(point.node) && dom.isEmpty(point.node))
+        ) {
           return point;
         }
       }
@@ -252,13 +272,18 @@ class WrappedRange {
 
       if (!hasRightNode) {
         const prevPoint = dom.prevPoint(point) || { node: null };
-        hasRightNode = (dom.isLeftEdgePointOf(point, block) || dom.isVoid(prevPoint.node)) && !isLeftToRight;
+        hasRightNode =
+          (dom.isLeftEdgePointOf(point, block) || dom.isVoid(prevPoint.node)) &&
+          !isLeftToRight;
       }
 
       let hasLeftNode = false;
       if (!hasLeftNode) {
         const nextPoint = dom.nextPoint(point) || { node: null };
-        hasLeftNode = (dom.isRightEdgePointOf(point, block) || dom.isVoid(nextPoint.node)) && isLeftToRight;
+        hasLeftNode =
+          (dom.isRightEdgePointOf(point, block) ||
+            dom.isVoid(nextPoint.node)) &&
+          isLeftToRight;
       }
 
       if (hasRightNode || hasLeftNode) {
@@ -270,13 +295,16 @@ class WrappedRange {
         isLeftToRight = !isLeftToRight;
       }
 
-      const nextPoint = isLeftToRight ? dom.nextPointUntil(dom.nextPoint(point), dom.isVisiblePoint)
+      const nextPoint = isLeftToRight
+        ? dom.nextPointUntil(dom.nextPoint(point), dom.isVisiblePoint)
         : dom.prevPointUntil(dom.prevPoint(point), dom.isVisiblePoint);
       return nextPoint || point;
     };
 
     const endPoint = getVisiblePoint(this.getEndPoint(), false);
-    const startPoint = this.isCollapsed() ? endPoint : getVisiblePoint(this.getStartPoint(), true);
+    const startPoint = this.isCollapsed()
+      ? endPoint
+      : getVisiblePoint(this.getStartPoint(), true);
 
     return new WrappedRange(
       startPoint.node,
@@ -308,29 +336,37 @@ class WrappedRange {
     const nodes = [];
     const leftEdgeNodes = [];
 
-    dom.walkPoint(startPoint, endPoint, function(point) {
-      if (dom.isEditable(point.node)) {
-        return;
-      }
-
-      let node;
-      if (fullyContains) {
-        if (dom.isLeftEdgePoint(point)) {
-          leftEdgeNodes.push(point.node);
+    dom.walkPoint(
+      startPoint,
+      endPoint,
+      function (point) {
+        if (dom.isEditable(point.node)) {
+          return;
         }
-        if (dom.isRightEdgePoint(point) && lists.contains(leftEdgeNodes, point.node)) {
+
+        let node;
+        if (fullyContains) {
+          if (dom.isLeftEdgePoint(point)) {
+            leftEdgeNodes.push(point.node);
+          }
+          if (
+            dom.isRightEdgePoint(point) &&
+            lists.contains(leftEdgeNodes, point.node)
+          ) {
+            node = point.node;
+          }
+        } else if (includeAncestor) {
+          node = dom.ancestor(point.node, pred);
+        } else {
           node = point.node;
         }
-      } else if (includeAncestor) {
-        node = dom.ancestor(point.node, pred);
-      } else {
-        node = point.node;
-      }
 
-      if (node && pred(node)) {
-        nodes.push(node);
-      }
-    }, true);
+        if (node && pred(node)) {
+          nodes.push(node);
+        }
+      },
+      true
+    );
 
     return lists.unique(nodes);
   }
@@ -433,12 +469,12 @@ class WrappedRange {
     });
 
     // find new cursor point
-    const point = dom.prevPointUntil(rng.getStartPoint(), function(point) {
+    const point = dom.prevPointUntil(rng.getStartPoint(), function (point) {
       return !lists.contains(nodes, point.node);
     });
 
     const emptyParents = [];
-    $.each(nodes, function(idx, node) {
+    $.each(nodes, function (idx, node) {
       // find empty parents
       const parent = node.parentNode;
       if (point.node !== parent && dom.nodeLength(parent) === 1) {
@@ -448,7 +484,7 @@ class WrappedRange {
     });
 
     // remove empty parents
-    $.each(emptyParents, function(idx, node) {
+    $.each(emptyParents, function (idx, node) {
       dom.remove(node, false);
     });
 
@@ -464,9 +500,9 @@ class WrappedRange {
    * makeIsOn: return isOn(pred) function
    */
   makeIsOn(pred) {
-    return function() {
+    return function () {
       const ancestor = dom.ancestor(this.sc, pred);
-      return !!ancestor && (ancestor === dom.ancestor(this.ec, pred));
+      return !!ancestor && ancestor === dom.ancestor(this.ec, pred);
     };
   }
 
@@ -517,7 +553,8 @@ class WrappedRange {
       const ancestors = dom.listAncestor(rng.sc, func.not(dom.isInline));
       topAncestor = lists.last(ancestors);
       if (!dom.isInline(topAncestor)) {
-        topAncestor = ancestors[ancestors.length - 2] || rng.sc.childNodes[rng.so];
+        topAncestor =
+          ancestors[ancestors.length - 2] || rng.sc.childNodes[rng.so];
       }
     } else {
       topAncestor = rng.sc.childNodes[rng.so > 0 ? rng.so - 1 : 0];
@@ -525,12 +562,16 @@ class WrappedRange {
 
     if (topAncestor) {
       // siblings not in paragraph
-      let inlineSiblings = dom.listPrev(topAncestor, dom.isParaInline).reverse();
-      inlineSiblings = inlineSiblings.concat(dom.listNext(topAncestor.nextSibling, dom.isParaInline));
+      let inlineSiblings = dom
+        .listPrev(topAncestor, dom.isParaInline)
+        .reverse();
+      inlineSiblings = inlineSiblings.concat(
+        dom.listNext(topAncestor.nextSibling, dom.isParaInline)
+      );
 
       // wrap with paragraph
       if (inlineSiblings.length) {
-        const para = dom.wrap(lists.head(inlineSiblings), 'p');
+        const para = dom.wrap(lists.head(inlineSiblings), "p");
         dom.appendChildNodes(para, lists.tail(inlineSiblings));
       }
     }
@@ -570,7 +611,7 @@ class WrappedRange {
   pasteHTML(markup) {
     markup = $.trim(markup);
 
-    const contentsContainer = $('<div></div>').html(markup)[0];
+    const contentsContainer = $("<div></div>").html(markup)[0];
     let childNodes = lists.from(contentsContainer.childNodes);
 
     // const rng = this.wrapBodyInlineWithPara().deleteContents();
@@ -582,7 +623,7 @@ class WrappedRange {
       reversed = true;
     }
 
-    childNodes = childNodes.map(function(childNode) {
+    childNodes = childNodes.map(function (childNode) {
       return rng.insertNode(childNode);
     });
 
@@ -615,12 +656,12 @@ class WrappedRange {
       return this;
     }
 
-    const startPoint = dom.prevPointUntil(endPoint, function(point) {
+    const startPoint = dom.prevPointUntil(endPoint, function (point) {
       return !dom.isCharPoint(point);
     });
 
     if (findAfter) {
-      endPoint = dom.nextPointUntil(endPoint, function(point) {
+      endPoint = dom.nextPointUntil(endPoint, function (point) {
         return !dom.isCharPoint(point);
       });
     }
@@ -642,7 +683,7 @@ class WrappedRange {
   getWordsRange(findAfter) {
     var endPoint = this.getEndPoint();
 
-    var isNotTextPoint = function(point) {
+    var isNotTextPoint = function (point) {
       return !dom.isCharPoint(point) && !dom.isSpacePoint(point);
     };
 
@@ -678,7 +719,7 @@ class WrappedRange {
   getWordsMatchRange(regex) {
     var endPoint = this.getEndPoint();
 
-    var startPoint = dom.prevPointUntil(endPoint, function(point) {
+    var startPoint = dom.prevPointUntil(endPoint, function (point) {
       if (!dom.isCharPoint(point) && !dom.isSpacePoint(point)) {
         return true;
       }
@@ -772,10 +813,11 @@ export default {
    * @param {Number} eo - end offset
    * @return {WrappedRange}
    */
-  create: function(sc, so, ec, eo) {
+  create: function (sc, so, ec, eo) {
     if (arguments.length === 4) {
       return new WrappedRange(sc, so, ec, eo);
-    } else if (arguments.length === 2) { // collapsed
+    } else if (arguments.length === 2) {
+      // collapsed
       ec = sc;
       eo = so;
       return new WrappedRange(sc, so, ec, eo);
@@ -787,18 +829,21 @@ export default {
         if (dom.isEditable(bodyElement)) {
           bodyElement = bodyElement.lastChild;
         }
-        return this.createFromBodyElement(bodyElement, dom.emptyPara === arguments[0].innerHTML);
+        return this.createFromBodyElement(
+          bodyElement,
+          dom.emptyPara === arguments[0].innerHTML
+        );
       }
       return wrappedRange;
     }
   },
 
-  createFromBodyElement: function(bodyElement, isCollapseToStart = false) {
+  createFromBodyElement: function (bodyElement, isCollapseToStart = false) {
     var wrappedRange = this.createFromNode(bodyElement);
     return wrappedRange.collapse(isCollapseToStart);
   },
 
-  createFromSelection: function() {
+  createFromSelection: function () {
     let sc, so, ec, eo;
     if (env.isW3CRangeSupport) {
       const selection = document.getSelection();
@@ -815,7 +860,8 @@ export default {
       so = nativeRng.startOffset;
       ec = nativeRng.endContainer;
       eo = nativeRng.endOffset;
-    } else { // IE8: TextRange
+    } else {
+      // IE8: TextRange
       const textRange = document.selection.createRange();
       const textRangeEnd = textRange.duplicate();
       textRangeEnd.collapse(false);
@@ -826,9 +872,13 @@ export default {
       let endPoint = textRangeToPoint(textRangeEnd, false);
 
       // same visible point case: range was collapsed.
-      if (dom.isText(startPoint.node) && dom.isLeftEdgePoint(startPoint) &&
-        dom.isTextNode(endPoint.node) && dom.isRightEdgePoint(endPoint) &&
-        endPoint.node.nextSibling === startPoint.node) {
+      if (
+        dom.isText(startPoint.node) &&
+        dom.isLeftEdgePoint(startPoint) &&
+        dom.isTextNode(endPoint.node) &&
+        dom.isRightEdgePoint(endPoint) &&
+        endPoint.node.nextSibling === startPoint.node
+      ) {
         startPoint = endPoint;
       }
 
@@ -849,7 +899,7 @@ export default {
    * @param {Node} node
    * @return {WrappedRange}
    */
-  createFromNode: function(node) {
+  createFromNode: function (node) {
     let sc = node;
     let so = 0;
     let ec = node;
@@ -877,7 +927,7 @@ export default {
    * @param {Node} node
    * @return {WrappedRange}
    */
-  createFromNodeBefore: function(node) {
+  createFromNodeBefore: function (node) {
     return this.createFromNode(node).collapse(true);
   },
 
@@ -887,7 +937,7 @@ export default {
    * @param {Node} node
    * @return {WrappedRange}
    */
-  createFromNodeAfter: function(node) {
+  createFromNodeAfter: function (node) {
     return this.createFromNode(node).collapse();
   },
 
@@ -900,7 +950,7 @@ export default {
    * @param {Object} bookmark
    * @return {WrappedRange}
    */
-  createFromBookmark: function(editable, bookmark) {
+  createFromBookmark: function (editable, bookmark) {
     const sc = dom.fromOffsetPath(editable, bookmark.s.path);
     const so = bookmark.s.offset;
     const ec = dom.fromOffsetPath(editable, bookmark.e.path);
@@ -917,7 +967,7 @@ export default {
    * @param {Node[]} paras
    * @return {WrappedRange}
    */
-  createFromParaBookmark: function(bookmark, paras) {
+  createFromParaBookmark: function (bookmark, paras) {
     const so = bookmark.s.offset;
     const eo = bookmark.e.offset;
     const sc = dom.fromOffsetPath(lists.head(paras), bookmark.s.path);

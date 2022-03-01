@@ -1,7 +1,7 @@
-import $ from 'jquery';
-import func from '../core/func';
-import lists from '../core/lists';
-import dom from '../core/dom';
+import $ from "jquery";
+import func from "../core/func";
+import lists from "../core/lists";
+import dom from "../core/dom";
 
 export default class Style {
   /**
@@ -32,13 +32,19 @@ export default class Style {
    * @return {Object}
    */
   fromNode($node) {
-    const properties = ['font-family', 'font-size', 'text-align', 'list-style-type', 'line-height'];
+    const properties = [
+      "font-family",
+      "font-size",
+      "text-align",
+      "list-style-type",
+      "line-height",
+    ];
     const styleInfo = this.jQueryCSS($node, properties) || {};
 
-    const fontSize = $node[0].style.fontSize || styleInfo['font-size'];
+    const fontSize = $node[0].style.fontSize || styleInfo["font-size"];
 
-    styleInfo['font-size'] = parseInt(fontSize, 10);
-    styleInfo['font-size-unit'] = fontSize.match(/[a-z%]+$/);
+    styleInfo["font-size"] = parseInt(fontSize, 10);
+    styleInfo["font-size-unit"] = fontSize.match(/[a-z%]+$/);
 
     return styleInfo;
   }
@@ -50,11 +56,14 @@ export default class Style {
    * @param {Object} styleInfo
    */
   stylePara(rng, styleInfo) {
-    $.each(rng.nodes(dom.isPara, {
-      includeAncestor: true,
-    }), (idx, para) => {
-      $(para).css(styleInfo);
-    });
+    $.each(
+      rng.nodes(dom.isPara, {
+        includeAncestor: true,
+      }),
+      (idx, para) => {
+        $(para).css(styleInfo);
+      }
+    );
   }
 
   /**
@@ -70,7 +79,7 @@ export default class Style {
   styleNodes(rng, options) {
     rng = rng.splitText();
 
-    const nodeName = (options && options.nodeName) || 'SPAN';
+    const nodeName = (options && options.nodeName) || "SPAN";
     const expandClosestSibling = !!(options && options.expandClosestSibling);
     const onlyPartialContains = !!(options && options.onlyPartialContains);
 
@@ -79,11 +88,13 @@ export default class Style {
     }
 
     let pred = dom.makePredByNodeName(nodeName);
-    const nodes = rng.nodes(dom.isText, {
-      fullyContains: true,
-    }).map((text) => {
-      return dom.singleChildAncestor(text, pred) || dom.wrap(text, nodeName);
-    });
+    const nodes = rng
+      .nodes(dom.isText, {
+        fullyContains: true,
+      })
+      .map((text) => {
+        return dom.singleChildAncestor(text, pred) || dom.wrap(text, nodeName);
+      });
 
     if (expandClosestSibling) {
       if (onlyPartialContains) {
@@ -123,13 +134,24 @@ export default class Style {
     // [workaround] prevent Firefox nsresult: "0x80004005 (NS_ERROR_FAILURE)"
     try {
       styleInfo = $.extend(styleInfo, {
-        'font-bold': document.queryCommandState('bold') ? 'bold' : 'normal',
-        'font-italic': document.queryCommandState('italic') ? 'italic' : 'normal',
-        'font-underline': document.queryCommandState('underline') ? 'underline' : 'normal',
-        'font-subscript': document.queryCommandState('subscript') ? 'subscript' : 'normal',
-        'font-superscript': document.queryCommandState('superscript') ? 'superscript' : 'normal',
-        'font-strikethrough': document.queryCommandState('strikethrough') ? 'strikethrough' : 'normal',
-        'font-family': document.queryCommandValue('fontname') || styleInfo['font-family'],
+        "font-bold": document.queryCommandState("bold") ? "bold" : "normal",
+        "font-italic": document.queryCommandState("italic")
+          ? "italic"
+          : "normal",
+        "font-underline": document.queryCommandState("underline")
+          ? "underline"
+          : "normal",
+        "font-subscript": document.queryCommandState("subscript")
+          ? "subscript"
+          : "normal",
+        "font-superscript": document.queryCommandState("superscript")
+          ? "superscript"
+          : "normal",
+        "font-strikethrough": document.queryCommandState("strikethrough")
+          ? "strikethrough"
+          : "normal",
+        "font-family":
+          document.queryCommandValue("fontname") || styleInfo["font-family"],
       });
     } catch (e) {
       // eslint-disable-next-line
@@ -137,19 +159,22 @@ export default class Style {
 
     // list-style-type to list-style(unordered, ordered)
     if (!rng.isOnList()) {
-      styleInfo['list-style'] = 'none';
+      styleInfo["list-style"] = "none";
     } else {
-      const orderedTypes = ['circle', 'disc', 'disc-leading-zero', 'square'];
-      const isUnordered = orderedTypes.indexOf(styleInfo['list-style-type']) > -1;
-      styleInfo['list-style'] = isUnordered ? 'unordered' : 'ordered';
+      const orderedTypes = ["circle", "disc", "disc-leading-zero", "square"];
+      const isUnordered =
+        orderedTypes.indexOf(styleInfo["list-style-type"]) > -1;
+      styleInfo["list-style"] = isUnordered ? "unordered" : "ordered";
     }
 
     const para = dom.ancestor(rng.sc, dom.isPara);
-    if (para && para.style['line-height']) {
-      styleInfo['line-height'] = para.style.lineHeight;
+    if (para && para.style["line-height"]) {
+      styleInfo["line-height"] = para.style.lineHeight;
     } else {
-      const lineHeight = parseInt(styleInfo['line-height'], 10) / parseInt(styleInfo['font-size'], 10);
-      styleInfo['line-height'] = lineHeight.toFixed(1);
+      const lineHeight =
+        parseInt(styleInfo["line-height"], 10) /
+        parseInt(styleInfo["font-size"], 10);
+      styleInfo["line-height"] = lineHeight.toFixed(1);
     }
 
     styleInfo.anchor = rng.isOnAnchor() && dom.ancestor(rng.sc, dom.isAnchor);
