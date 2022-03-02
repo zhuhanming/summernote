@@ -1,5 +1,5 @@
-import lists from "./lists";
-import func from "./func";
+import lists from './lists';
+import func from './func';
 
 const KEY_MAP = {
   BACKSPACE: 8,
@@ -76,7 +76,7 @@ export default {
         KEY_MAP.SPACE,
         KEY_MAP.DELETE,
       ],
-      keyCode
+      keyCode,
     );
   },
   /**
@@ -98,7 +98,7 @@ export default {
   isMove: (keyCode) => {
     return lists.contains(
       [KEY_MAP.LEFT, KEY_MAP.UP, KEY_MAP.RIGHT, KEY_MAP.DOWN],
-      keyCode
+      keyCode,
     );
   },
   /**
@@ -110,7 +110,7 @@ export default {
   isNavigation: (keyCode) => {
     return lists.contains(
       [KEY_MAP.HOME, KEY_MAP.END, KEY_MAP.PAGEUP, KEY_MAP.PAGEDOWN],
-      keyCode
+      keyCode,
     );
   },
   /**

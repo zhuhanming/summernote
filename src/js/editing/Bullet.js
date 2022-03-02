@@ -1,22 +1,22 @@
-import $ from "jquery";
-import lists from "../core/lists";
-import func from "../core/func";
-import dom from "../core/dom";
-import range from "../core/range";
+import $ from 'jquery';
+import lists from '../core/lists';
+import func from '../core/func';
+import dom from '../core/dom';
+import range from '../core/range';
 
 export default class Bullet {
   /**
    * toggle ordered list
    */
   insertOrderedList(editable) {
-    this.toggleList("OL", editable);
+    this.toggleList('OL', editable);
   }
 
   /**
    * toggle unordered list
    */
   insertUnorderedList(editable) {
-    this.toggleList("UL", editable);
+    this.toggleList('UL', editable);
   }
 
   /**
@@ -26,7 +26,7 @@ export default class Bullet {
     const rng = range.create(editable).wrapBodyInlineWithPara();
 
     const paras = rng.nodes(dom.isPara, { includeAncestor: true });
-    const clustereds = lists.clusterBy(paras, func.peq2("parentNode"));
+    const clustereds = lists.clusterBy(paras, func.peq2('parentNode'));
 
     $.each(clustereds, (idx, paras) => {
       const head = lists.head(paras);
@@ -42,7 +42,7 @@ export default class Bullet {
         }
       } else {
         $.each(paras, (idx, para) => {
-          $(para).css("marginLeft", (idx, val) => {
+          $(para).css('marginLeft', (idx, val) => {
             return (parseInt(val, 10) || 0) + 25;
           });
         });
@@ -59,7 +59,7 @@ export default class Bullet {
     const rng = range.create(editable).wrapBodyInlineWithPara();
 
     const paras = rng.nodes(dom.isPara, { includeAncestor: true });
-    const clustereds = lists.clusterBy(paras, func.peq2("parentNode"));
+    const clustereds = lists.clusterBy(paras, func.peq2('parentNode'));
 
     $.each(clustereds, (idx, paras) => {
       const head = lists.head(paras);
@@ -67,9 +67,9 @@ export default class Bullet {
         this.releaseList([paras]);
       } else {
         $.each(paras, (idx, para) => {
-          $(para).css("marginLeft", (idx, val) => {
+          $(para).css('marginLeft', (idx, val) => {
             val = parseInt(val, 10) || 0;
-            return val > 25 ? val - 25 : "";
+            return val > 25 ? val - 25 : '';
           });
         });
       }
@@ -88,7 +88,7 @@ export default class Bullet {
 
     let paras = rng.nodes(dom.isPara, { includeAncestor: true });
     const bookmark = rng.paraBookmark(paras);
-    const clustereds = lists.clusterBy(paras, func.peq2("parentNode"));
+    const clustereds = lists.clusterBy(paras, func.peq2('parentNode'));
 
     // paragraph to list
     if (lists.find(paras, dom.isPurePara)) {
@@ -132,11 +132,11 @@ export default class Bullet {
     const nextList = dom.isList(last.nextSibling) && last.nextSibling;
 
     const listNode =
-      prevList || dom.insertAfter(dom.create(listName || "UL"), last);
+      prevList || dom.insertAfter(dom.create(listName || 'UL'), last);
 
     // P to LI
     paras = paras.map((para) => {
-      return dom.isPurePara(para) ? dom.replace(para, "LI") : para;
+      return dom.isPurePara(para) ? dom.replace(para, 'LI') : para;
     });
 
     // append to list(<ul>, <ol>)
@@ -169,7 +169,7 @@ export default class Bullet {
         : head.parentNode;
       const parentItem = headList.parentNode;
 
-      if (headList.parentNode.nodeName === "LI") {
+      if (headList.parentNode.nodeName === 'LI') {
         paras.map((para) => {
           const newList = this.findNextSiblings(para);
 
@@ -203,7 +203,7 @@ export default class Bullet {
                 },
                 {
                   isSkipPaddingBlankHTML: true,
-                }
+                },
               )
             : null;
 
@@ -215,7 +215,7 @@ export default class Bullet {
           },
           {
             isSkipPaddingBlankHTML: true,
-          }
+          },
         );
 
         paras = isEscapseToBody
@@ -225,7 +225,7 @@ export default class Bullet {
         // LI to P
         if (isEscapseToBody || !dom.isList(headList.parentNode)) {
           paras = paras.map((para) => {
-            return dom.replace(para, "P");
+            return dom.replace(para, 'P');
           });
         }
 
@@ -237,7 +237,7 @@ export default class Bullet {
         const rootLists = lists.compact([headList, middleList, lastList]);
         $.each(rootLists, (idx, rootList) => {
           const listNodes = [rootList].concat(
-            dom.listDescendant(rootList, dom.isList)
+            dom.listDescendant(rootList, dom.isList),
           );
           $.each(listNodes.reverse(), (idx, listNode) => {
             if (!dom.nodeLength(listNode)) {
@@ -265,7 +265,7 @@ export default class Bullet {
   appendToPrevious(node) {
     return node.previousSibling
       ? dom.appendChildNodes(node.previousSibling, [node])
-      : this.wrapList([node], "LI");
+      : this.wrapList([node], 'LI');
   }
 
   /**
@@ -280,7 +280,7 @@ export default class Bullet {
     return node
       ? lists.find(
           node.children,
-          (child) => ["OL", "UL"].indexOf(child.nodeName) > -1
+          (child) => ['OL', 'UL'].indexOf(child.nodeName) > -1,
         )
       : null;
   }

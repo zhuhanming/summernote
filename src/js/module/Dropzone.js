@@ -1,4 +1,4 @@
-import $ from "jquery";
+import $ from 'jquery';
 
 export default class Dropzone {
   constructor(context) {
@@ -14,8 +14,8 @@ export default class Dropzone {
       [
         '<div class="note-dropzone">',
         '<div class="note-dropzone-message"></div>',
-        "</div>",
-      ].join("")
+        '</div>',
+      ].join(''),
     ).prependTo(this.$editor);
   }
 
@@ -30,7 +30,7 @@ export default class Dropzone {
       };
       // do not consider outside of dropzone
       this.$eventListener = this.$dropzone;
-      this.$eventListener.on("drop", this.documentEventHandlers.onDrop);
+      this.$eventListener.on('drop', this.documentEventHandlers.onDrop);
     } else {
       this.attachDragAndDropEvent();
     }
@@ -41,14 +41,14 @@ export default class Dropzone {
    */
   attachDragAndDropEvent() {
     let collection = $();
-    const $dropzoneMessage = this.$dropzone.find(".note-dropzone-message");
+    const $dropzoneMessage = this.$dropzone.find('.note-dropzone-message');
 
     this.documentEventHandlers.onDragenter = (e) => {
-      const isCodeview = this.context.invoke("codeview.isActivated");
+      const isCodeview = this.context.invoke('codeview.isActivated');
       const hasEditorSize =
         this.$editor.width() > 0 && this.$editor.height() > 0;
       if (!isCodeview && !collection.length && hasEditorSize) {
-        this.$editor.addClass("dragover");
+        this.$editor.addClass('dragover');
         this.$dropzone.width(this.$editor.width());
         this.$dropzone.height(this.$editor.height());
         $dropzoneMessage.text(this.lang.image.dragImageHere);
@@ -60,38 +60,38 @@ export default class Dropzone {
       collection = collection.not(e.target);
 
       // If nodeName is BODY, then just make it over (fix for IE)
-      if (!collection.length || e.target.nodeName === "BODY") {
+      if (!collection.length || e.target.nodeName === 'BODY') {
         collection = $();
-        this.$editor.removeClass("dragover");
+        this.$editor.removeClass('dragover');
       }
     };
 
     this.documentEventHandlers.onDrop = () => {
       collection = $();
-      this.$editor.removeClass("dragover");
+      this.$editor.removeClass('dragover');
     };
 
     // show dropzone on dragenter when dragging a object to document
     // -but only if the editor is visible, i.e. has a positive width and height
     this.$eventListener
-      .on("dragenter", this.documentEventHandlers.onDragenter)
-      .on("dragleave", this.documentEventHandlers.onDragleave)
-      .on("drop", this.documentEventHandlers.onDrop);
+      .on('dragenter', this.documentEventHandlers.onDragenter)
+      .on('dragleave', this.documentEventHandlers.onDragleave)
+      .on('drop', this.documentEventHandlers.onDrop);
 
     // change dropzone's message on hover.
     this.$dropzone
-      .on("dragenter", () => {
-        this.$dropzone.addClass("hover");
+      .on('dragenter', () => {
+        this.$dropzone.addClass('hover');
         $dropzoneMessage.text(this.lang.image.dropImage);
       })
-      .on("dragleave", () => {
-        this.$dropzone.removeClass("hover");
+      .on('dragleave', () => {
+        this.$dropzone.removeClass('hover');
         $dropzoneMessage.text(this.lang.image.dragImageHere);
       });
 
     // attach dropImage
     this.$dropzone
-      .on("drop", (event) => {
+      .on('drop', (event) => {
         const dataTransfer = event.originalEvent.dataTransfer;
 
         // stop the browser from opening the dropped content
@@ -100,35 +100,35 @@ export default class Dropzone {
         if (dataTransfer && dataTransfer.files && dataTransfer.files.length) {
           this.$editable.focus();
           this.context.invoke(
-            "editor.insertImagesOrCallback",
-            dataTransfer.files
+            'editor.insertImagesOrCallback',
+            dataTransfer.files,
           );
         } else {
           $.each(dataTransfer.types, (idx, type) => {
             // skip moz-specific types
-            if (type.toLowerCase().indexOf("_moz_") > -1) {
+            if (type.toLowerCase().indexOf('_moz_') > -1) {
               return;
             }
             const content = dataTransfer.getData(type);
 
-            if (type.toLowerCase().indexOf("text") > -1) {
-              this.context.invoke("editor.pasteHTML", content);
+            if (type.toLowerCase().indexOf('text') > -1) {
+              this.context.invoke('editor.pasteHTML', content);
             } else {
               $(content).each((idx, item) => {
-                this.context.invoke("editor.insertNode", item);
+                this.context.invoke('editor.insertNode', item);
               });
             }
           });
         }
       })
-      .on("dragover", false); // prevent default dragover event
+      .on('dragover', false); // prevent default dragover event
   }
 
   destroy() {
     Object.keys(this.documentEventHandlers).forEach((key) => {
       this.$eventListener.off(
         key.substr(2).toLowerCase(),
-        this.documentEventHandlers[key]
+        this.documentEventHandlers[key],
       );
     });
     this.documentEventHandlers = {};

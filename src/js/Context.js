@@ -1,7 +1,7 @@
-import $ from "jquery";
-import func from "./core/func";
-import lists from "./core/lists";
-import dom from "./core/dom";
+import $ from 'jquery';
+import func from './core/func';
+import lists from './core/lists';
+import dom from './core/dom';
 
 export default class Context {
   /**
@@ -38,7 +38,7 @@ export default class Context {
    */
   destroy() {
     this._destroy();
-    this.$note.removeData("summernote");
+    this.$note.removeData('summernote');
     this.ui.removeLayout(this.$note, this.layoutInfo);
   }
 
@@ -65,13 +65,13 @@ export default class Context {
     // add optional buttons
     const buttons = $.extend({}, this.options.buttons);
     Object.keys(buttons).forEach((key) => {
-      this.memo("button." + key, buttons[key]);
+      this.memo('button.' + key, buttons[key]);
     });
 
     const modules = $.extend(
       {},
       this.options.modules,
-      $.summernote.plugins || {}
+      $.summernote.plugins || {},
     );
 
     // add and initialize modules
@@ -96,49 +96,49 @@ export default class Context {
       this.removeMemo(key);
     });
     // trigger custom onDestroy callback
-    this.triggerEvent("destroy", this);
+    this.triggerEvent('destroy', this);
   }
 
   code(html) {
-    const isActivated = this.invoke("codeview.isActivated");
+    const isActivated = this.invoke('codeview.isActivated');
 
     if (html === undefined) {
-      this.invoke("codeview.sync");
+      this.invoke('codeview.sync');
       return isActivated
         ? this.layoutInfo.codable.val()
         : this.layoutInfo.editable.html();
     } else {
       if (isActivated) {
-        this.invoke("codeview.sync", html);
+        this.invoke('codeview.sync', html);
       } else {
         this.layoutInfo.editable.html(html);
       }
       this.$note.val(html);
-      this.triggerEvent("change", html, this.layoutInfo.editable);
+      this.triggerEvent('change', html, this.layoutInfo.editable);
     }
   }
 
   isDisabled() {
-    return this.layoutInfo.editable.attr("contenteditable") === "false";
+    return this.layoutInfo.editable.attr('contenteditable') === 'false';
   }
 
   enable() {
-    this.layoutInfo.editable.attr("contenteditable", true);
-    this.invoke("toolbar.activate", true);
-    this.triggerEvent("disable", false);
+    this.layoutInfo.editable.attr('contenteditable', true);
+    this.invoke('toolbar.activate', true);
+    this.triggerEvent('disable', false);
     this.options.editing = true;
   }
 
   disable() {
     // close codeview if codeview is opend
-    if (this.invoke("codeview.isActivated")) {
-      this.invoke("codeview.deactivate");
+    if (this.invoke('codeview.isActivated')) {
+      this.invoke('codeview.deactivate');
     }
-    this.layoutInfo.editable.attr("contenteditable", false);
+    this.layoutInfo.editable.attr('contenteditable', false);
     this.options.editing = false;
-    this.invoke("toolbar.deactivate", true);
+    this.invoke('toolbar.deactivate', true);
 
-    this.triggerEvent("disable", true);
+    this.triggerEvent('disable', true);
   }
 
   triggerEvent() {
@@ -146,11 +146,11 @@ export default class Context {
     const args = lists.tail(lists.from(arguments));
 
     const callback =
-      this.options.callbacks[func.namespaceToCamel(namespace, "on")];
+      this.options.callbacks[func.namespaceToCamel(namespace, 'on')];
     if (callback) {
       callback.apply(this.$note[0], args);
     }
-    this.$note.trigger("summernote." + namespace, args);
+    this.$note.trigger('summernote.' + namespace, args);
   }
 
   initializeModule(key) {
@@ -219,7 +219,7 @@ export default class Context {
   createInvokeHandlerAndUpdateState(namespace, value) {
     return (event) => {
       this.createInvokeHandler(namespace, value)(event);
-      this.invoke("buttons.updateCurrentStyle");
+      this.invoke('buttons.updateCurrentStyle');
     };
   }
 
@@ -229,8 +229,8 @@ export default class Context {
       const $target = $(event.target);
       this.invoke(
         namespace,
-        value || $target.closest("[data-value]").data("value"),
-        $target
+        value || $target.closest('[data-value]').data('value'),
+        $target,
       );
     };
   }
@@ -239,12 +239,12 @@ export default class Context {
     const namespace = lists.head(arguments);
     const args = lists.tail(lists.from(arguments));
 
-    const splits = namespace.split(".");
+    const splits = namespace.split('.');
     const hasSeparator = splits.length > 1;
     const moduleName = hasSeparator && lists.head(splits);
     const methodName = hasSeparator ? lists.last(splits) : lists.head(splits);
 
-    const module = this.modules[moduleName || "editor"];
+    const module = this.modules[moduleName || 'editor'];
     if (!moduleName && this[methodName]) {
       return this[methodName].apply(this, args);
     } else if (module && module[methodName] && module.shouldInitialize()) {

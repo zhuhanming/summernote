@@ -45,7 +45,7 @@
     &::after {
       top: 1px;
       margin-left: -10px;
-      content: " ";
+      content: ' ';
       border-top-width: 0;
       border-bottom-color: #fff;
     }
@@ -62,7 +62,7 @@
     &::after {
       bottom: 1px;
       margin-left: -10px;
-      content: " ";
+      content: ' ';
       border-bottom-width: 0;
       border-top-color: #fff;
     }
@@ -79,7 +79,7 @@
     &::after {
       left: 1px;
       margin-top: -10px;
-      content: " ";
+      content: ' ';
       border-left-width: 0;
       border-right-color: #fff;
     }
@@ -95,7 +95,7 @@
     &::after {
       right: 1px;
       margin-top: -10px;
-      content: " ";
+      content: ' ';
       border-right-width: 0;
       border-left-color: #fff;
     }
@@ -116,7 +116,7 @@
     border-color: transparent;
     border-style: solid;
 
-    content: " ";
+    content: ' ';
     border-width: 10px;
   }
 }

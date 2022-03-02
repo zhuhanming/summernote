@@ -1,5 +1,5 @@
-import $ from "jquery";
-import env from "../core/env";
+import $ from 'jquery';
+import env from '../core/env';
 
 export default class HelpDialog {
   constructor(context) {
@@ -21,8 +21,8 @@ export default class HelpDialog {
       '<a href="http://summernote.org/" target="_blank" rel="noopener noreferrer">Summernote @@VERSION@@</a> · ',
       '<a href="https://github.com/summernote/summernote" target="_blank" rel="noopener noreferrer">Project</a> · ',
       '<a href="https://github.com/summernote/summernote/issues" target="_blank" rel="noopener noreferrer">Issues</a>',
-      "</p>",
-    ].join("");
+      '</p>',
+    ].join('');
 
     this.$dialog = this.ui
       .dialog({
@@ -31,9 +31,9 @@ export default class HelpDialog {
         body: this.createShortcutList(),
         footer: body,
         callback: ($node) => {
-          $node.find(".modal-body,.note-modal-body").css({
-            "max-height": 300,
-            overflow: "scroll",
+          $node.find('.modal-body,.note-modal-body').css({
+            'max-height': 300,
+            overflow: 'scroll',
           });
         },
       })
@@ -47,26 +47,26 @@ export default class HelpDialog {
   }
 
   createShortcutList() {
-    const keyMap = this.options.keyMap[env.isMac ? "mac" : "pc"];
+    const keyMap = this.options.keyMap[env.isMac ? 'mac' : 'pc'];
     return Object.keys(keyMap)
       .map((key) => {
         const command = keyMap[key];
         const $row = $('<div><div class="help-list-item"></div></div>');
         $row
           .append(
-            $("<label><kbd>" + key + "</kdb></label>").css({
+            $('<label><kbd>' + key + '</kdb></label>').css({
               width: 180,
-              "margin-right": 10,
-            })
+              'margin-right': 10,
+            }),
           )
           .append(
-            $("<span></span>").html(
-              this.context.memo("help." + command) || command
-            )
+            $('<span></span>').html(
+              this.context.memo('help.' + command) || command,
+            ),
           );
         return $row.html();
       })
-      .join("");
+      .join('');
   }
 
   /**
@@ -77,7 +77,7 @@ export default class HelpDialog {
   showHelpDialog() {
     return $.Deferred((deferred) => {
       this.ui.onDialogShown(this.$dialog, () => {
-        this.context.triggerEvent("dialog.shown");
+        this.context.triggerEvent('dialog.shown');
         deferred.resolve();
       });
       this.ui.showDialog(this.$dialog);
@@ -85,9 +85,9 @@ export default class HelpDialog {
   }
 
   show() {
-    this.context.invoke("editor.saveRange");
+    this.context.invoke('editor.saveRange');
     this.showHelpDialog().then(() => {
-      this.context.invoke("editor.restoreRange");
+      this.context.invoke('editor.restoreRange');
     });
   }
 }

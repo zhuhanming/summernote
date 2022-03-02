@@ -1,8 +1,8 @@
-import $ from "jquery";
-import env from "./env";
-import func from "./func";
-import lists from "./lists";
-import dom from "./dom";
+import $ from 'jquery';
+import env from './env';
+import func from './func';
+import lists from './lists';
+import dom from './dom';
 
 /**
  * return boundaryPoint from TextRange, inspired by Andy Na's HuskyRange.js
@@ -25,7 +25,7 @@ function textRangeToPoint(textRange, isStart) {
       continue;
     }
     tester.moveToElementText(childNodes[offset]);
-    if (tester.compareEndPoints("StartToStart", textRange) >= 0) {
+    if (tester.compareEndPoints('StartToStart', textRange) >= 0) {
       break;
     }
     prevContainer = childNodes[offset];
@@ -41,8 +41,8 @@ function textRangeToPoint(textRange, isStart) {
       : container.firstChild;
 
     const pointTester = textRange.duplicate();
-    pointTester.setEndPoint("StartToStart", textRangeStart);
-    let textCount = pointTester.text.replace(/[\r\n]/g, "").length;
+    pointTester.setEndPoint('StartToStart', textRangeStart);
+    let textCount = pointTester.text.replace(/[\r\n]/g, '').length;
 
     while (
       textCount > curTextNode.nodeValue.length &&
@@ -112,7 +112,7 @@ function pointToTextRange(point) {
 
   textRange.moveToElementText(info.node);
   textRange.collapse(info.collapseToStart);
-  textRange.moveStart("character", info.offset);
+  textRange.moveStart('character', info.offset);
   return textRange;
 }
 
@@ -159,11 +159,11 @@ class WrappedRange {
       });
 
       textRange.setEndPoint(
-        "EndToEnd",
+        'EndToEnd',
         pointToTextRange({
           node: this.ec,
           offset: this.eo,
-        })
+        }),
       );
 
       return textRange;
@@ -220,7 +220,7 @@ class WrappedRange {
     const height = $(container).height();
     if (container.scrollTop + height < this.sc.offsetTop) {
       container.scrollTop += Math.abs(
-        container.scrollTop + height - this.sc.offsetTop
+        container.scrollTop + height - this.sc.offsetTop,
       );
     }
 
@@ -310,7 +310,7 @@ class WrappedRange {
       startPoint.node,
       startPoint.offset,
       endPoint.node,
-      endPoint.offset
+      endPoint.offset,
     );
   }
 
@@ -365,7 +365,7 @@ class WrappedRange {
           nodes.push(node);
         }
       },
-      true
+      true,
     );
 
     return lists.unique(nodes);
@@ -409,7 +409,7 @@ class WrappedRange {
       boundaryPoints.sc,
       boundaryPoints.so,
       boundaryPoints.ec,
-      boundaryPoints.eo
+      boundaryPoints.eo,
     );
   }
 
@@ -450,7 +450,7 @@ class WrappedRange {
       boundaryPoints.sc,
       boundaryPoints.so,
       boundaryPoints.ec,
-      boundaryPoints.eo
+      boundaryPoints.eo,
     );
   }
 
@@ -492,7 +492,7 @@ class WrappedRange {
       point.node,
       point.offset,
       point.node,
-      point.offset
+      point.offset,
     ).normalize();
   }
 
@@ -566,12 +566,12 @@ class WrappedRange {
         .listPrev(topAncestor, dom.isParaInline)
         .reverse();
       inlineSiblings = inlineSiblings.concat(
-        dom.listNext(topAncestor.nextSibling, dom.isParaInline)
+        dom.listNext(topAncestor.nextSibling, dom.isParaInline),
       );
 
       // wrap with paragraph
       if (inlineSiblings.length) {
-        const para = dom.wrap(lists.head(inlineSiblings), "p");
+        const para = dom.wrap(lists.head(inlineSiblings), 'p');
         dom.appendChildNodes(para, lists.tail(inlineSiblings));
       }
     }
@@ -611,7 +611,7 @@ class WrappedRange {
   pasteHTML(markup) {
     markup = $.trim(markup);
 
-    const contentsContainer = $("<div></div>").html(markup)[0];
+    const contentsContainer = $('<div></div>').html(markup)[0];
     let childNodes = lists.from(contentsContainer.childNodes);
 
     // const rng = this.wrapBodyInlineWithPara().deleteContents();
@@ -670,7 +670,7 @@ class WrappedRange {
       startPoint.node,
       startPoint.offset,
       endPoint.node,
-      endPoint.offset
+      endPoint.offset,
     );
   }
 
@@ -701,7 +701,7 @@ class WrappedRange {
       startPoint.node,
       startPoint.offset,
       endPoint.node,
-      endPoint.offset
+      endPoint.offset,
     );
   }
 
@@ -727,7 +727,7 @@ class WrappedRange {
         point.node,
         point.offset,
         endPoint.node,
-        endPoint.offset
+        endPoint.offset,
       );
       var result = regex.exec(rng.toString());
       return result && result.index === 0;
@@ -737,7 +737,7 @@ class WrappedRange {
       startPoint.node,
       startPoint.offset,
       endPoint.node,
-      endPoint.offset
+      endPoint.offset,
     );
 
     var text = rng.toString();
@@ -831,7 +831,7 @@ export default {
         }
         return this.createFromBodyElement(
           bodyElement,
-          dom.emptyPara === arguments[0].innerHTML
+          dom.emptyPara === arguments[0].innerHTML,
         );
       }
       return wrappedRange;

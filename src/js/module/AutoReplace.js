@@ -1,6 +1,6 @@
-import lists from "../core/lists";
-import dom from "../core/dom";
-import key from "../core/key";
+import lists from '../core/lists';
+import dom from '../core/dom';
+import key from '../core/key';
 
 export default class AutoReplace {
   constructor(context) {
@@ -18,12 +18,12 @@ export default class AutoReplace {
     this.previousKeydownCode = null;
 
     this.events = {
-      "summernote.keyup": (we, e) => {
+      'summernote.keyup': (we, e) => {
         if (!e.isDefaultPrevented()) {
           this.handleKeyup(e);
         }
       },
-      "summernote.keydown": (we, e) => {
+      'summernote.keydown': (we, e) => {
         this.handleKeydown(e);
       },
     };
@@ -50,9 +50,9 @@ export default class AutoReplace {
     const keyword = this.lastWord.toString();
     this.options.match(keyword, function (match) {
       if (match) {
-        let node = "";
+        let node = '';
 
-        if (typeof match === "string") {
+        if (typeof match === 'string') {
           node = dom.createText(match);
         } else if (match instanceof jQuery) {
           node = match[0];
@@ -63,7 +63,7 @@ export default class AutoReplace {
         if (!node) return;
         self.lastWord.insertNode(node);
         self.lastWord = null;
-        self.context.invoke("editor.focus");
+        self.context.invoke('editor.focus');
       }
     });
   }
@@ -81,7 +81,7 @@ export default class AutoReplace {
 
     if (lists.contains(this.keys, e.keyCode)) {
       const wordRange = this.context
-        .invoke("editor.createRange")
+        .invoke('editor.createRange')
         .getWordRange();
       this.lastWord = wordRange;
     }

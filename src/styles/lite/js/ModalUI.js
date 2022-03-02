@@ -1,4 +1,4 @@
-import $ from "jquery";
+import $ from 'jquery';
 
 class ModalUI {
   constructor($node /*, options */) {
@@ -8,12 +8,12 @@ class ModalUI {
 
   show() {
     this.$backdrop.appendTo(document.body).show();
-    this.$modal.addClass("open").show();
-    this.$modal.trigger("note.modal.show");
+    this.$modal.addClass('open').show();
+    this.$modal.trigger('note.modal.show');
     this.$modal
-      .off("click", ".close")
-      .on("click", ".close", this.hide.bind(this));
-    this.$modal.on("keydown", (event) => {
+      .off('click', '.close')
+      .on('click', '.close', this.hide.bind(this));
+    this.$modal.on('keydown', (event) => {
       if (event.which === 27) {
         event.preventDefault();
         this.hide();
@@ -22,10 +22,10 @@ class ModalUI {
   }
 
   hide() {
-    this.$modal.removeClass("open").hide();
+    this.$modal.removeClass('open').hide();
     this.$backdrop.hide();
-    this.$modal.trigger("note.modal.hide");
-    this.$modal.off("keydown");
+    this.$modal.trigger('note.modal.hide');
+    this.$modal.off('keydown');
   }
 }
 

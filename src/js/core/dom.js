@@ -1,10 +1,10 @@
-import $ from "jquery";
-import func from "./func";
-import lists from "./lists";
-import env from "./env";
+import $ from 'jquery';
+import func from './func';
+import lists from './lists';
+import env from './env';
 
 const NBSP_CHAR = String.fromCharCode(160);
-const ZERO_WIDTH_NBSP_CHAR = "\ufeff";
+const ZERO_WIDTH_NBSP_CHAR = '\ufeff';
 
 /**
  * @method isEditable
@@ -15,7 +15,7 @@ const ZERO_WIDTH_NBSP_CHAR = "\ufeff";
  * @return {Boolean}
  */
 function isEditable(node) {
-  return node && $(node).hasClass("note-editable");
+  return node && $(node).hasClass('note-editable');
 }
 
 /**
@@ -27,7 +27,7 @@ function isEditable(node) {
  * @return {Boolean}
  */
 function isControlSizing(node) {
-  return node && $(node).hasClass("note-control-sizing");
+  return node && $(node).hasClass('note-control-sizing');
 }
 
 /**
@@ -77,7 +77,7 @@ function isVoid(node) {
   return (
     node &&
     /^BR|^IMG|^HR|^IFRAME|^BUTTON|^INPUT|^AUDIO|^VIDEO|^EMBED/.test(
-      node.nodeName.toUpperCase()
+      node.nodeName.toUpperCase(),
     )
   );
 }
@@ -95,17 +95,17 @@ function isHeading(node) {
   return node && /^H[1-7]/.test(node.nodeName.toUpperCase());
 }
 
-const isPre = makePredByNodeName("PRE");
+const isPre = makePredByNodeName('PRE');
 
-const isLi = makePredByNodeName("LI");
+const isLi = makePredByNodeName('LI');
 
 function isPurePara(node) {
   return isPara(node) && !isLi(node);
 }
 
-const isTable = makePredByNodeName("TABLE");
+const isTable = makePredByNodeName('TABLE');
 
-const isData = makePredByNodeName("DATA");
+const isData = makePredByNodeName('DATA');
 
 function isInline(node) {
   return (
@@ -123,19 +123,19 @@ function isList(node) {
   return node && /^UL|^OL/.test(node.nodeName.toUpperCase());
 }
 
-const isHr = makePredByNodeName("HR");
+const isHr = makePredByNodeName('HR');
 
 function isCell(node) {
   return node && /^TD|^TH/.test(node.nodeName.toUpperCase());
 }
 
-const isBlockquote = makePredByNodeName("BLOCKQUOTE");
+const isBlockquote = makePredByNodeName('BLOCKQUOTE');
 
 function isBodyContainer(node) {
   return isCell(node) || isBlockquote(node) || isEditable(node);
 }
 
-const isAnchor = makePredByNodeName("A");
+const isAnchor = makePredByNodeName('A');
 
 function isParaInline(node) {
   return isInline(node) && !!ancestor(node, isPara);
@@ -145,7 +145,7 @@ function isBodyInline(node) {
   return isInline(node) && !ancestor(node, isPara);
 }
 
-const isBody = makePredByNodeName("BODY");
+const isBody = makePredByNodeName('BODY');
 
 /**
  * returns whether nodeB is closest sibling of nodeA
@@ -184,7 +184,7 @@ function withClosestSiblings(node, pred) {
  * - [workaround] old IE only works with &nbsp;
  * - [workaround] IE11 and other browser works with bogus br
  */
-const blankHTML = env.isMSIE && env.browserVersion < 11 ? "&nbsp;" : "<br>";
+const blankHTML = env.isMSIE && env.browserVersion < 11 ? '&nbsp;' : '<br>';
 
 /**
  * @method nodeLength
@@ -215,7 +215,7 @@ function deepestChildIsEmpty(node) {
   do {
     if (
       node.firstElementChild === null ||
-      node.firstElementChild.innerHTML === ""
+      node.firstElementChild.innerHTML === ''
     )
       break;
   } while ((node = node.firstElementChild));
@@ -237,7 +237,7 @@ function isEmpty(node) {
   } else if (!isText(node) && len === 1 && node.innerHTML === blankHTML) {
     // ex) <p><br></p>, <span><br></span>
     return true;
-  } else if (lists.all(node.childNodes, isText) && node.innerHTML === "") {
+  } else if (lists.all(node.childNodes, isText) && node.innerHTML === '') {
     // ex) <p></p>, <span></span>
     return true;
   }
@@ -413,7 +413,7 @@ function listDescendant(node, pred) {
  */
 function wrap(node, wrapperName) {
   const parent = node.parentNode;
-  const wrapper = $("<" + wrapperName + ">")[0];
+  const wrapper = $('<' + wrapperName + '>')[0];
 
   parent.insertBefore(wrapper, node);
   wrapper.appendChild(node);
@@ -787,7 +787,7 @@ function isCharPoint(point) {
   }
 
   const ch = point.node.nodeValue.charAt(point.offset - 1);
-  return ch && ch !== " " && ch !== NBSP_CHAR;
+  return ch && ch !== ' ' && ch !== NBSP_CHAR;
 }
 
 /**
@@ -802,7 +802,7 @@ function isSpacePoint(point) {
   }
 
   const ch = point.node.nodeValue.charAt(point.offset - 1);
-  return ch === " " || ch === NBSP_CHAR;
+  return ch === ' ' || ch === NBSP_CHAR;
 }
 
 /**
@@ -979,7 +979,7 @@ function splitTree(root, point, options) {
         node: parent,
         offset: node ? position(node) : nodeLength(parent),
       },
-      options
+      options,
     );
   });
 }
@@ -1111,7 +1111,7 @@ function replace(node, nodeName) {
   return newNode;
 }
 
-const isTextarea = makePredByNodeName("TEXTAREA");
+const isTextarea = makePredByNodeName('TEXTAREA');
 
 /**
  * @param {jQuery} $node
@@ -1120,7 +1120,7 @@ const isTextarea = makePredByNodeName("TEXTAREA");
 function value($node, stripLinebreaks) {
   const val = isTextarea($node[0]) ? $node.val() : $node.html();
   if (stripLinebreaks) {
-    return val.replace(/[\n\r]/g, "");
+    return val.replace(/[\n\r]/g, '');
   }
   return val;
 }
@@ -1143,10 +1143,10 @@ function html($node, isNewlineOnBlock) {
       const isEndOfInlineContainer =
         /^DIV|^TD|^TH|^P|^LI|^H[1-7]/.test(name) && !!endSlash;
       const isBlockNode = /^BLOCKQUOTE|^TABLE|^TBODY|^TR|^HR|^UL|^OL/.test(
-        name
+        name,
       );
 
-      return match + (isEndOfInlineContainer || isBlockNode ? "\n" : "");
+      return match + (isEndOfInlineContainer || isBlockNode ? '\n' : '');
     });
     markup = markup.trim();
   }
@@ -1187,7 +1187,7 @@ function detachEvents($node, events) {
  */
 function isCustomStyleTag(node) {
   return (
-    node && !isText(node) && lists.contains(node.classList, "note-styletag")
+    node && !isText(node) && lists.contains(node.classList, 'note-styletag')
   );
 }
 
@@ -1222,15 +1222,15 @@ export default {
   isBlockquote,
   isBodyContainer,
   isAnchor,
-  isDiv: makePredByNodeName("DIV"),
+  isDiv: makePredByNodeName('DIV'),
   isLi,
-  isBR: makePredByNodeName("BR"),
-  isSpan: makePredByNodeName("SPAN"),
-  isB: makePredByNodeName("B"),
-  isU: makePredByNodeName("U"),
-  isS: makePredByNodeName("S"),
-  isI: makePredByNodeName("I"),
-  isImg: makePredByNodeName("IMG"),
+  isBR: makePredByNodeName('BR'),
+  isSpan: makePredByNodeName('SPAN'),
+  isB: makePredByNodeName('B'),
+  isU: makePredByNodeName('U'),
+  isS: makePredByNodeName('S'),
+  isI: makePredByNodeName('I'),
+  isImg: makePredByNodeName('IMG'),
   isTextarea,
   deepestChildIsEmpty,
   isEmpty,

@@ -1,4 +1,4 @@
-import $ from "jquery";
+import $ from 'jquery';
 
 /**
  * @class core.func
@@ -70,7 +70,7 @@ function resetUniqueId() {
  * @param {String} [prefix]
  */
 function uniqueId(prefix) {
-  const id = ++idCounter + "";
+  const id = ++idCounter + '';
   return prefix ? prefix + id : id;
 }
 
@@ -118,15 +118,15 @@ function invertObject(obj) {
  * @return {String}
  */
 function namespaceToCamel(namespace, prefix) {
-  prefix = prefix || "";
+  prefix = prefix || '';
   return (
     prefix +
     namespace
-      .split(".")
+      .split('.')
       .map(function (name) {
         return name.substring(0, 1).toUpperCase() + name.substring(1);
       })
-      .join("")
+      .join('')
   );
 }
 

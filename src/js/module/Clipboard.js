@@ -1,4 +1,4 @@
-import lists from "../core/lists";
+import lists from '../core/lists';
 
 export default class Clipboard {
   constructor(context) {
@@ -7,7 +7,7 @@ export default class Clipboard {
   }
 
   initialize() {
-    this.$editable.on("paste", this.pasteByEvent.bind(this));
+    this.$editable.on('paste', this.pasteByEvent.bind(this));
   }
 
   /**
@@ -23,18 +23,18 @@ export default class Clipboard {
         clipboardData.items.length > 1
           ? clipboardData.items[1]
           : lists.head(clipboardData.items);
-      if (item.kind === "file" && item.type.indexOf("image/") !== -1) {
+      if (item.kind === 'file' && item.type.indexOf('image/') !== -1) {
         // paste img file
-        this.context.invoke("editor.insertImagesOrCallback", [
+        this.context.invoke('editor.insertImagesOrCallback', [
           item.getAsFile(),
         ]);
         event.preventDefault();
-      } else if (item.kind === "string") {
+      } else if (item.kind === 'string') {
         // paste text with maxTextLength check
         if (
           this.context.invoke(
-            "editor.isLimited",
-            clipboardData.getData("Text").length
+            'editor.isLimited',
+            clipboardData.getData('Text').length,
           )
         ) {
           event.preventDefault();
@@ -42,14 +42,14 @@ export default class Clipboard {
       }
     } else if (window.clipboardData) {
       // for IE
-      let text = window.clipboardData.getData("text");
-      if (this.context.invoke("editor.isLimited", text.length)) {
+      let text = window.clipboardData.getData('text');
+      if (this.context.invoke('editor.isLimited', text.length)) {
         event.preventDefault();
       }
     }
     // Call editor.afterCommand after proceeding default event handler
     setTimeout(() => {
-      this.context.invoke("editor.afterCommand");
+      this.context.invoke('editor.afterCommand');
     }, 10);
   }
 }

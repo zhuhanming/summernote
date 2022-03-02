@@ -1,31 +1,31 @@
-const webfont = require("webfont").default;
-const fs = require("fs");
-const path = require("path");
+const webfont = require('webfont').default;
+const fs = require('fs');
+const path = require('path');
 
 const webfontConfig = {
-  files: "src/font/icons/*.svg",
-  dest: "src/font/",
-  formats: ["ttf", "eot", "woff", "woff2"],
-  fontName: "summernote",
-  template: "src/font/template.scss",
-  destTemplate: "src/styles/summernote/font.scss",
-  templateFontName: "summernote",
-  templateClassName: "note-icon",
-  templateFontPath: "./font/",
+  files: 'src/font/icons/*.svg',
+  dest: 'src/font/',
+  formats: ['ttf', 'eot', 'woff', 'woff2'],
+  fontName: 'summernote',
+  template: 'src/font/template.scss',
+  destTemplate: 'src/styles/summernote/font.scss',
+  templateFontName: 'summernote',
+  templateClassName: 'note-icon',
+  templateFontPath: './font/',
   fixedWidth: false,
   normalize: true,
 };
 
 // eslint-disable-next-line
-console.log("Building fonts...");
+console.log('Building fonts...');
 
 webfont(webfontConfig)
   .then((result) => {
     Object.keys(result).map((type) => {
       if (
-        type === "config" ||
-        type === "usedBuildInTemplate" ||
-        type === "glyphsData"
+        type === 'config' ||
+        type === 'usedBuildInTemplate' ||
+        type === 'glyphsData'
       ) {
         return;
       }
@@ -33,18 +33,18 @@ webfont(webfontConfig)
       const content = result[type];
       let file = null;
 
-      if (type !== "template") {
+      if (type !== 'template') {
         file = path.resolve(
           path.join(
-            webfontConfig["dest"],
-            webfontConfig["fontName"] + "." + type
-          )
+            webfontConfig['dest'],
+            webfontConfig['fontName'] + '.' + type,
+          ),
         );
       } else {
-        file = path.resolve(webfontConfig["destTemplate"]);
+        file = path.resolve(webfontConfig['destTemplate']);
       }
       // eslint-disable-next-line
-      console.log("Writing ", file);
+      console.log('Writing ', file);
 
       fs.writeFileSync(file, content);
     });

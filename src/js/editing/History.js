@@ -1,4 +1,4 @@
-import range from "../core/range";
+import range from '../core/range';
 
 export default class History {
   constructor(context) {
@@ -77,7 +77,7 @@ export default class History {
     this.stackOffset = -1;
 
     // Clear the editable area.
-    this.$editable.html("");
+    this.$editable.html('');
 
     // Record our first snapshot (of nothing).
     this.recordUndo();

@@ -1,4 +1,4 @@
-import $ from "jquery";
+import $ from 'jquery';
 const EDITABLE_PADDING = 24;
 
 export default class Statusbar {
@@ -16,7 +16,7 @@ export default class Statusbar {
       return;
     }
 
-    this.$statusbar.on("mousedown", (event) => {
+    this.$statusbar.on('mousedown', (event) => {
       event.preventDefault();
       event.stopPropagation();
 
@@ -50,14 +50,14 @@ export default class Statusbar {
         this.$codable.height(heightCode);
       };
 
-      this.$document.on("mousemove", onMouseMove).one("mouseup", () => {
-        this.$document.off("mousemove", onMouseMove);
+      this.$document.on('mousemove', onMouseMove).one('mouseup', () => {
+        this.$document.off('mousemove', onMouseMove);
       });
     });
   }
 
   destroy() {
     this.$statusbar.off();
-    this.$statusbar.addClass("locked");
+    this.$statusbar.addClass('locked');
   }
 }

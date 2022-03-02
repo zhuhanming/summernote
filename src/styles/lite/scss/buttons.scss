@@ -94,9 +94,9 @@
 }
 
 // Specificity overrides
-input[type="submit"],
-input[type="reset"],
-input[type="button"] {
+input[type='submit'],
+input[type='reset'],
+input[type='button'] {
   &.note-btn-block {
     width: 100%;
   }

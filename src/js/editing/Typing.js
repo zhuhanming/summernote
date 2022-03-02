@@ -1,7 +1,7 @@
-import $ from "jquery";
-import dom from "../core/dom";
-import range from "../core/range";
-import Bullet from "../editing/Bullet";
+import $ from 'jquery';
+import dom from '../core/dom';
+import range from '../core/range';
+import Bullet from '../editing/Bullet';
 
 /**
  * @class editing.Typing
@@ -43,6 +43,7 @@ export default class Typing {
    *   2 - Break all blockquotes, so that the new paragraph is not quoted (this is the default)
    */
   insertParagraph(editable, rng) {
+    // TODO: Debug this
     rng = rng || range.create(editable);
 
     // deleteContents on range.
@@ -98,7 +99,7 @@ export default class Typing {
           // not a blockquote, just insert the paragraph
           let emptyAnchors = dom.listDescendant(splitRoot, dom.isEmptyAnchor);
           emptyAnchors = emptyAnchors.concat(
-            dom.listDescendant(nextPara, dom.isEmptyAnchor)
+            dom.listDescendant(nextPara, dom.isEmptyAnchor),
           );
 
           $.each(emptyAnchors, (idx, anchor) => {
@@ -112,7 +113,7 @@ export default class Typing {
               dom.isCustomStyleTag(nextPara)) &&
             dom.isEmpty(nextPara)
           ) {
-            nextPara = dom.replace(nextPara, "p");
+            nextPara = dom.replace(nextPara, 'p');
           }
         }
       }

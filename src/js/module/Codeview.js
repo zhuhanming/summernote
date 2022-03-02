@@ -1,5 +1,5 @@
-import dom from "../core/dom";
-import key from "../core/key";
+import dom from '../core/dom';
+import key from '../core/key';
 
 /**
  * @class Codeview
@@ -26,20 +26,20 @@ export default class CodeView {
     if (isCodeview) {
       if (html) {
         if (CodeMirror) {
-          this.$codable.data("cmEditor").getDoc().setValue(html);
+          this.$codable.data('cmEditor').getDoc().setValue(html);
         } else {
           this.$codable.val(html);
         }
       } else {
         if (CodeMirror) {
-          this.$codable.data("cmEditor").save();
+          this.$codable.data('cmEditor').save();
         }
       }
     }
   }
 
   initialize() {
-    this.$codable.on("keyup", (event) => {
+    this.$codable.on('keyup', (event) => {
       if (event.keyCode === key.code.ESCAPE) {
         this.deactivate();
       }
@@ -50,7 +50,7 @@ export default class CodeView {
    * @return {Boolean}
    */
   isActivated() {
-    return this.$editor.hasClass("codeview");
+    return this.$editor.hasClass('codeview');
   }
 
   /**
@@ -62,7 +62,7 @@ export default class CodeView {
     } else {
       this.activate();
     }
-    this.context.triggerEvent("codeview.toggled");
+    this.context.triggerEvent('codeview.toggled');
   }
 
   /**
@@ -73,11 +73,11 @@ export default class CodeView {
   purify(value) {
     if (this.options.codeviewFilter) {
       // filter code view regex
-      value = value.replace(this.options.codeviewFilterRegex, "");
+      value = value.replace(this.options.codeviewFilterRegex, '');
       // allow specific iframe tag
       if (this.options.codeviewIframeFilter) {
         const whitelist = this.options.codeviewIframeWhitelistSrc.concat(
-          this.options.codeviewIframeWhitelistSrcBase
+          this.options.codeviewIframeWhitelistSrcBase,
         );
         value = value.replace(
           /(<iframe.*?>.*?(?:<\/iframe>)?)/gi,
@@ -86,22 +86,22 @@ export default class CodeView {
             if (
               /<.+src(?==?('|"|\s)?)[\s\S]+src(?=('|"|\s)?)[^>]*?>/i.test(tag)
             ) {
-              return "";
+              return '';
             }
             for (const src of whitelist) {
               // pass if src is trusted
               if (
                 new RegExp(
                   'src="(https?:)?//' +
-                    src.replace(/[-\/\\^$*+?.()|[\]{}]/g, "\\$&") +
-                    '/(.+)"'
+                    src.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&') +
+                    '/(.+)"',
                 ).test(tag)
               ) {
                 return tag;
               }
             }
-            return "";
-          }
+            return '';
+          },
         );
       }
     }
@@ -116,51 +116,51 @@ export default class CodeView {
     this.$codable.val(dom.html(this.$editable, this.options.prettifyHtml));
     this.$codable.height(this.$editable.height());
 
-    this.context.invoke("toolbar.updateCodeview", true);
-    this.context.invoke("airPopover.updateCodeview", true);
+    this.context.invoke('toolbar.updateCodeview', true);
+    this.context.invoke('airPopover.updateCodeview', true);
 
-    this.$editor.addClass("codeview");
+    this.$editor.addClass('codeview');
     this.$codable.focus();
 
     // activate CodeMirror as codable
     if (CodeMirror) {
       const cmEditor = CodeMirror.fromTextArea(
         this.$codable[0],
-        this.options.codemirror
+        this.options.codemirror,
       );
 
       // CodeMirror TernServer
       if (this.options.codemirror.tern) {
         const server = new CodeMirror.TernServer(this.options.codemirror.tern);
         cmEditor.ternServer = server;
-        cmEditor.on("cursorActivity", (cm) => {
+        cmEditor.on('cursorActivity', (cm) => {
           server.updateArgHints(cm);
         });
       }
 
-      cmEditor.on("blur", (event) => {
-        this.context.triggerEvent("blur.codeview", cmEditor.getValue(), event);
+      cmEditor.on('blur', (event) => {
+        this.context.triggerEvent('blur.codeview', cmEditor.getValue(), event);
       });
-      cmEditor.on("change", () => {
+      cmEditor.on('change', () => {
         this.context.triggerEvent(
-          "change.codeview",
+          'change.codeview',
           cmEditor.getValue(),
-          cmEditor
+          cmEditor,
         );
       });
 
       // CodeMirror hasn't Padding.
       cmEditor.setSize(null, this.$editable.outerHeight());
-      this.$codable.data("cmEditor", cmEditor);
+      this.$codable.data('cmEditor', cmEditor);
     } else {
-      this.$codable.on("blur", (event) => {
-        this.context.triggerEvent("blur.codeview", this.$codable.val(), event);
+      this.$codable.on('blur', (event) => {
+        this.context.triggerEvent('blur.codeview', this.$codable.val(), event);
       });
-      this.$codable.on("input", () => {
+      this.$codable.on('input', () => {
         this.context.triggerEvent(
-          "change.codeview",
+          'change.codeview',
           this.$codable.val(),
-          this.$codable
+          this.$codable,
         );
       });
     }
@@ -173,34 +173,34 @@ export default class CodeView {
     const CodeMirror = this.CodeMirrorConstructor;
     // deactivate CodeMirror as codable
     if (CodeMirror) {
-      const cmEditor = this.$codable.data("cmEditor");
+      const cmEditor = this.$codable.data('cmEditor');
       this.$codable.val(cmEditor.getValue());
       cmEditor.toTextArea();
     }
 
     const value = this.purify(
-      dom.value(this.$codable, this.options.prettifyHtml) || dom.emptyPara
+      dom.value(this.$codable, this.options.prettifyHtml) || dom.emptyPara,
     );
     const isChange = this.$editable.html() !== value;
 
     this.$editable.html(value);
     this.$editable.height(
-      this.options.height ? this.$codable.height() : "auto"
+      this.options.height ? this.$codable.height() : 'auto',
     );
-    this.$editor.removeClass("codeview");
+    this.$editor.removeClass('codeview');
 
     if (isChange) {
       this.context.triggerEvent(
-        "change",
+        'change',
         this.$editable.html(),
-        this.$editable
+        this.$editable,
       );
     }
 
     this.$editable.focus();
 
-    this.context.invoke("toolbar.updateCodeview", false);
-    this.context.invoke("airPopover.updateCodeview", false);
+    this.context.invoke('toolbar.updateCodeview', false);
+    this.context.invoke('airPopover.updateCodeview', false);
   }
 
   destroy() {

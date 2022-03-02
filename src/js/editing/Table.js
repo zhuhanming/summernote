@@ -1,7 +1,7 @@
-import $ from "jquery";
-import dom from "../core/dom";
-import range from "../core/range";
-import lists from "../core/lists";
+import $ from 'jquery';
+import dom from '../core/dom';
+import range from '../core/range';
+import lists from '../core/lists';
 
 /**
  * @class Create a virtual table to create what actions to do in change.
@@ -26,8 +26,8 @@ const TableResultAction = function (startPoint, where, action, domTable) {
     if (
       !startPoint ||
       !startPoint.tagName ||
-      (startPoint.tagName.toLowerCase() !== "td" &&
-        startPoint.tagName.toLowerCase() !== "th")
+      (startPoint.tagName.toLowerCase() !== 'td' &&
+        startPoint.tagName.toLowerCase() !== 'th')
     ) {
       // Impossible to identify start Cell point
       return;
@@ -36,7 +36,7 @@ const TableResultAction = function (startPoint, where, action, domTable) {
     if (
       !startPoint.parentElement ||
       !startPoint.parentElement.tagName ||
-      startPoint.parentElement.tagName.toLowerCase() !== "tr"
+      startPoint.parentElement.tagName.toLowerCase() !== 'tr'
     ) {
       // Impossible to identify start Row point
       return;
@@ -60,7 +60,7 @@ const TableResultAction = function (startPoint, where, action, domTable) {
     baseCell,
     isRowSpan,
     isColSpan,
-    isVirtualCell
+    isVirtualCell,
   ) {
     const objPosition = {
       baseRow: baseRow,
@@ -85,7 +85,7 @@ const TableResultAction = function (startPoint, where, action, domTable) {
     virtualTableCellObj,
     resultAction,
     virtualRowPosition,
-    virtualColPosition
+    virtualColPosition,
   ) {
     return {
       baseCell: virtualTableCellObj.baseCell,
@@ -140,7 +140,7 @@ const TableResultAction = function (startPoint, where, action, domTable) {
       cell,
       cellHasRowspan,
       cellHasColspan,
-      false
+      false,
     );
 
     // Add span rows to virtual Table.
@@ -158,7 +158,7 @@ const TableResultAction = function (startPoint, where, action, domTable) {
           cell,
           true,
           cellHasColspan,
-          true
+          true,
         );
       }
     }
@@ -178,7 +178,7 @@ const TableResultAction = function (startPoint, where, action, domTable) {
           cell,
           cellHasRowspan,
           true,
-          true
+          true,
         );
       }
     }
@@ -309,7 +309,7 @@ const TableResultAction = function (startPoint, where, action, domTable) {
           break;
       }
       _actionCellList.push(
-        getActionCell(cell, resultAction, rowPosition, colPosition)
+        getActionCell(cell, resultAction, rowPosition, colPosition),
       );
       actualPosition++;
     }
@@ -360,7 +360,7 @@ export default class Table {
     const table = dom.ancestor(cell, dom.isTable);
     const cells = dom.listDescendant(table, dom.isCell);
 
-    const nextCell = lists[isShift ? "prev" : "next"](cells, cell);
+    const nextCell = lists[isShift ? 'prev' : 'next'](cells, cell);
     if (nextCell) {
       range.create(nextCell, 0).select();
     }
@@ -376,15 +376,15 @@ export default class Table {
   addRow(rng, position) {
     const cell = dom.ancestor(rng.commonAncestor(), dom.isCell);
 
-    const currentTr = $(cell).closest("tr");
+    const currentTr = $(cell).closest('tr');
     const trAttributes = this.recoverAttributes(currentTr);
-    const html = $("<tr" + trAttributes + "></tr>");
+    const html = $('<tr' + trAttributes + '></tr>');
 
     const vTable = new TableResultAction(
       cell,
       TableResultAction.where.Row,
       TableResultAction.requestAction.Add,
-      $(currentTr).closest("table")[0]
+      $(currentTr).closest('table')[0],
     );
     const actions = vTable.getActionList();
 
@@ -393,23 +393,23 @@ export default class Table {
       const tdAttributes = this.recoverAttributes(currentCell.baseCell);
       switch (currentCell.action) {
         case TableResultAction.resultAction.AddCell:
-          html.append("<td" + tdAttributes + ">" + dom.blank + "</td>");
+          html.append('<td' + tdAttributes + '>' + dom.blank + '</td>');
           break;
         case TableResultAction.resultAction.SumSpanCount:
           {
-            if (position === "top") {
+            if (position === 'top') {
               const baseCellTr = currentCell.baseCell.parent;
               const isTopFromRowSpan =
                 (!baseCellTr
                   ? 0
-                  : currentCell.baseCell.closest("tr").rowIndex) <=
+                  : currentCell.baseCell.closest('tr').rowIndex) <=
                 currentTr[0].rowIndex;
               if (isTopFromRowSpan) {
-                const newTd = $("<div></div>")
+                const newTd = $('<div></div>')
                   .append(
                     $(
-                      "<td" + tdAttributes + ">" + dom.blank + "</td>"
-                    ).removeAttr("rowspan")
+                      '<td' + tdAttributes + '>' + dom.blank + '</td>',
+                    ).removeAttr('rowspan'),
                   )
                   .html();
                 html.append(newTd);
@@ -418,19 +418,19 @@ export default class Table {
             }
             let rowspanNumber = parseInt(currentCell.baseCell.rowSpan, 10);
             rowspanNumber++;
-            currentCell.baseCell.setAttribute("rowSpan", rowspanNumber);
+            currentCell.baseCell.setAttribute('rowSpan', rowspanNumber);
           }
           break;
       }
     }
 
-    if (position === "top") {
+    if (position === 'top') {
       currentTr.before(html);
     } else {
       const cellHasRowspan = cell.rowSpan > 1;
       if (cellHasRowspan) {
         const lastTrIndex = currentTr[0].rowIndex + (cell.rowSpan - 2);
-        $($(currentTr).parent().find("tr")[lastTrIndex]).after($(html));
+        $($(currentTr).parent().find('tr')[lastTrIndex]).after($(html));
         return;
       }
       currentTr.after(html);
@@ -446,7 +446,7 @@ export default class Table {
    */
   addCol(rng, position) {
     const cell = dom.ancestor(rng.commonAncestor(), dom.isCell);
-    const row = $(cell).closest("tr");
+    const row = $(cell).closest('tr');
     const rowsGroup = $(row).siblings();
     rowsGroup.push(row);
 
@@ -454,7 +454,7 @@ export default class Table {
       cell,
       TableResultAction.where.Column,
       TableResultAction.requestAction.Add,
-      $(row).closest("table")[0]
+      $(row).closest('table')[0],
     );
     const actions = vTable.getActionList();
 
@@ -463,24 +463,24 @@ export default class Table {
       const tdAttributes = this.recoverAttributes(currentCell.baseCell);
       switch (currentCell.action) {
         case TableResultAction.resultAction.AddCell:
-          if (position === "right") {
+          if (position === 'right') {
             $(currentCell.baseCell).after(
-              "<td" + tdAttributes + ">" + dom.blank + "</td>"
+              '<td' + tdAttributes + '>' + dom.blank + '</td>',
             );
           } else {
             $(currentCell.baseCell).before(
-              "<td" + tdAttributes + ">" + dom.blank + "</td>"
+              '<td' + tdAttributes + '>' + dom.blank + '</td>',
             );
           }
           break;
         case TableResultAction.resultAction.SumSpanCount:
-          if (position === "right") {
+          if (position === 'right') {
             let colspanNumber = parseInt(currentCell.baseCell.colSpan, 10);
             colspanNumber++;
-            currentCell.baseCell.setAttribute("colSpan", colspanNumber);
+            currentCell.baseCell.setAttribute('colSpan', colspanNumber);
           } else {
             $(currentCell.baseCell).before(
-              "<td" + tdAttributes + ">" + dom.blank + "</td>"
+              '<td' + tdAttributes + '>' + dom.blank + '</td>',
             );
           }
           break;
@@ -495,7 +495,7 @@ export default class Table {
    * @return {string} Copied string elements.
    */
   recoverAttributes(el) {
-    let resultStr = "";
+    let resultStr = '';
 
     if (!el) {
       return resultStr;
@@ -504,12 +504,12 @@ export default class Table {
     const attrList = el.attributes || [];
 
     for (let i = 0; i < attrList.length; i++) {
-      if (attrList[i].name.toLowerCase() === "id") {
+      if (attrList[i].name.toLowerCase() === 'id') {
         continue;
       }
 
       if (attrList[i].specified) {
-        resultStr += " " + attrList[i].name + "='" + attrList[i].value + "'";
+        resultStr += ' ' + attrList[i].name + "='" + attrList[i].value + "'";
       }
     }
 
@@ -524,15 +524,15 @@ export default class Table {
    */
   deleteRow(rng) {
     const cell = dom.ancestor(rng.commonAncestor(), dom.isCell);
-    const row = $(cell).closest("tr");
-    const cellPos = row.children("td, th").index($(cell));
+    const row = $(cell).closest('tr');
+    const cellPos = row.children('td, th').index($(cell));
     const rowPos = row[0].rowIndex;
 
     const vTable = new TableResultAction(
       cell,
       TableResultAction.where.Row,
       TableResultAction.requestAction.Delete,
-      $(row).closest("table")[0]
+      $(row).closest('table')[0],
     );
     const actions = vTable.getActionList();
 
@@ -550,7 +550,7 @@ export default class Table {
           continue;
         case TableResultAction.resultAction.AddCell:
           {
-            const nextRow = row.next("tr")[0];
+            const nextRow = row.next('tr')[0];
             if (!nextRow) {
               continue;
             }
@@ -559,12 +559,12 @@ export default class Table {
               if (rowspanNumber > 2) {
                 rowspanNumber--;
                 nextRow.insertBefore(cloneRow, nextRow.cells[cellPos]);
-                nextRow.cells[cellPos].setAttribute("rowSpan", rowspanNumber);
-                nextRow.cells[cellPos].innerHTML = "";
+                nextRow.cells[cellPos].setAttribute('rowSpan', rowspanNumber);
+                nextRow.cells[cellPos].innerHTML = '';
               } else if (rowspanNumber === 2) {
                 nextRow.insertBefore(cloneRow, nextRow.cells[cellPos]);
-                nextRow.cells[cellPos].removeAttribute("rowSpan");
-                nextRow.cells[cellPos].innerHTML = "";
+                nextRow.cells[cellPos].removeAttribute('rowSpan');
+                nextRow.cells[cellPos].innerHTML = '';
               }
             }
           }
@@ -573,20 +573,20 @@ export default class Table {
           if (hasRowspan) {
             if (rowspanNumber > 2) {
               rowspanNumber--;
-              baseCell.setAttribute("rowSpan", rowspanNumber);
+              baseCell.setAttribute('rowSpan', rowspanNumber);
               if (
                 virtualPosition.rowIndex !== rowPos &&
                 baseCell.cellIndex === cellPos
               ) {
-                baseCell.innerHTML = "";
+                baseCell.innerHTML = '';
               }
             } else if (rowspanNumber === 2) {
-              baseCell.removeAttribute("rowSpan");
+              baseCell.removeAttribute('rowSpan');
               if (
                 virtualPosition.rowIndex !== rowPos &&
                 baseCell.cellIndex === cellPos
               ) {
-                baseCell.innerHTML = "";
+                baseCell.innerHTML = '';
               }
             }
           }
@@ -607,14 +607,14 @@ export default class Table {
    */
   deleteCol(rng) {
     const cell = dom.ancestor(rng.commonAncestor(), dom.isCell);
-    const row = $(cell).closest("tr");
-    const cellPos = row.children("td, th").index($(cell));
+    const row = $(cell).closest('tr');
+    const cellPos = row.children('td, th').index($(cell));
 
     const vTable = new TableResultAction(
       cell,
       TableResultAction.where.Column,
       TableResultAction.requestAction.Delete,
-      $(row).closest("table")[0]
+      $(row).closest('table')[0],
     );
     const actions = vTable.getActionList();
 
@@ -635,14 +635,14 @@ export default class Table {
                 : 0;
               if (colspanNumber > 2) {
                 colspanNumber--;
-                baseCell.setAttribute("colSpan", colspanNumber);
+                baseCell.setAttribute('colSpan', colspanNumber);
                 if (baseCell.cellIndex === cellPos) {
-                  baseCell.innerHTML = "";
+                  baseCell.innerHTML = '';
                 }
               } else if (colspanNumber === 2) {
-                baseCell.removeAttribute("colSpan");
+                baseCell.removeAttribute('colSpan');
                 if (baseCell.cellIndex === cellPos) {
-                  baseCell.innerHTML = "";
+                  baseCell.innerHTML = '';
                 }
               }
             }
@@ -666,17 +666,17 @@ export default class Table {
     const tds = [];
     let tdHTML;
     for (let idxCol = 0; idxCol < colCount; idxCol++) {
-      tds.push("<td>" + dom.blank + "</td>");
+      tds.push('<td>' + dom.blank + '</td>');
     }
-    tdHTML = tds.join("");
+    tdHTML = tds.join('');
 
     const trs = [];
     let trHTML;
     for (let idxRow = 0; idxRow < rowCount; idxRow++) {
-      trs.push("<tr>" + tdHTML + "</tr>");
+      trs.push('<tr>' + tdHTML + '</tr>');
     }
-    trHTML = trs.join("");
-    const $table = $("<table>" + trHTML + "</table>");
+    trHTML = trs.join('');
+    const $table = $('<table>' + trHTML + '</table>');
     if (options && options.tableClassName) {
       $table.addClass(options.tableClassName);
     }
@@ -692,6 +692,6 @@ export default class Table {
    */
   deleteTable(rng) {
     const cell = dom.ancestor(rng.commonAncestor(), dom.isCell);
-    $(cell).closest("table").remove();
+    $(cell).closest('table').remove();
   }
 }

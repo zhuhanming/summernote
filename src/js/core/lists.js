@@ -1,4 +1,4 @@
-import func from "./func";
+import func from './func';
 
 /**
  * returns the first item of an array.
@@ -131,7 +131,7 @@ function clusterBy(array, fn) {
       }
       return memo;
     },
-    [[head(array)]]
+    [[head(array)]],
   );
 }
 
