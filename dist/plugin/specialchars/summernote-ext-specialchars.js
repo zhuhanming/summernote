@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 (function (factory) {
   if (typeof define === "function" && define.amd) {
     // AMD. Register as an anonymous module.
@@ -6,28 +5,13 @@
   } else if (typeof module === "object" && module.exports) {
     // Node/CommonJS
     module.exports = factory(require("jquery"));
-=======
-(function(factory) {
-  if (typeof define === 'function' && define.amd) {
-    // AMD. Register as an anonymous module.
-    define(['jquery'], factory);
-  } else if (typeof module === 'object' && module.exports) {
-    // Node/CommonJS
-    module.exports = factory(require('jquery'));
->>>>>>> cd06928b8f978e8c852df5de0b87a008573dac4c
   } else {
     // Browser globals
     factory(window.jQuery);
   }
-<<<<<<< HEAD
 })(function ($) {
   $.extend($.summernote.plugins, {
     specialchars: function (context) {
-=======
-}(function($) {
-  $.extend($.summernote.plugins, {
-    'specialchars': function(context) {
->>>>>>> cd06928b8f978e8c852df5de0b87a008573dac4c
       var self = this;
       var ui = $.summernote.ui;
 
@@ -52,7 +36,6 @@
 
       // special characters data set
       var specialCharDataSet = [
-<<<<<<< HEAD
         "&quot;",
         "&amp;",
         "&lt;",
@@ -187,43 +170,6 @@
             },
           })
           .render();
-=======
-        '&quot;', '&amp;', '&lt;', '&gt;', '&iexcl;', '&cent;',
-        '&pound;', '&curren;', '&yen;', '&brvbar;', '&sect;',
-        '&uml;', '&copy;', '&ordf;', '&laquo;', '&not;',
-        '&reg;', '&macr;', '&deg;', '&plusmn;', '&sup2;',
-        '&sup3;', '&acute;', '&micro;', '&para;', '&middot;',
-        '&cedil;', '&sup1;', '&ordm;', '&raquo;', '&frac14;',
-        '&frac12;', '&frac34;', '&iquest;', '&times;', '&divide;',
-        '&fnof;', '&circ;', '&tilde;', '&ndash;', '&mdash;',
-        '&lsquo;', '&rsquo;', '&sbquo;', '&ldquo;', '&rdquo;',
-        '&bdquo;', '&dagger;', '&Dagger;', '&bull;', '&hellip;',
-        '&permil;', '&prime;', '&Prime;', '&lsaquo;', '&rsaquo;',
-        '&oline;', '&frasl;', '&euro;', '&image;', '&weierp;',
-        '&real;', '&trade;', '&alefsym;', '&larr;', '&uarr;',
-        '&rarr;', '&darr;', '&harr;', '&crarr;', '&lArr;',
-        '&uArr;', '&rArr;', '&dArr;', '&hArr;', '&forall;',
-        '&part;', '&exist;', '&empty;', '&nabla;', '&isin;',
-        '&notin;', '&ni;', '&prod;', '&sum;', '&minus;',
-        '&lowast;', '&radic;', '&prop;', '&infin;', '&ang;',
-        '&and;', '&or;', '&cap;', '&cup;', '&int;',
-        '&there4;', '&sim;', '&cong;', '&asymp;', '&ne;',
-        '&equiv;', '&le;', '&ge;', '&sub;', '&sup;',
-        '&nsub;', '&sube;', '&supe;', '&oplus;', '&otimes;',
-        '&perp;', '&sdot;', '&lceil;', '&rceil;', '&lfloor;',
-        '&rfloor;', '&loz;', '&spades;', '&clubs;', '&hearts;',
-        '&diams;',
-      ];
-
-      context.memo('button.specialchars', function() {
-        return ui.button({
-          contents: '<i class="fa fa-font fa-flip-vertical"></i>',
-          tooltip: lang.specialChar.specialChar,
-          click: function() {
-            self.show();
-          },
-        }).render();
->>>>>>> cd06928b8f978e8c852df5de0b87a008573dac4c
       });
 
       /**
@@ -233,7 +179,6 @@
        * @private
        * @return {jQuery}
        */
-<<<<<<< HEAD
       this.makeSpecialCharSetTable = function () {
         var $table = $("<table></table>");
         $.each(specialCharDataSet, function (idx, text) {
@@ -257,26 +202,6 @@
               },
             })
             .render();
-=======
-      this.makeSpecialCharSetTable = function() {
-        var $table = $('<table></table>');
-        $.each(specialCharDataSet, function(idx, text) {
-          var $td = $('<td></td>').addClass('note-specialchar-node');
-          var $tr = (idx % COLUMN_LENGTH === 0) ? $('<tr></tr>') : $table.find('tr').last();
-
-          var $button = ui.button({
-            callback: function($node) {
-              $node.html(text);
-              $node.attr('title', text);
-              $node.attr('data-value', encodeURIComponent(text));
-              $node.css({
-                width: COLUMN_WIDTH,
-                'margin-right': '2px',
-                'margin-bottom': '2px',
-              });
-            },
-          }).render();
->>>>>>> cd06928b8f978e8c852df5de0b87a008573dac4c
 
           $td.append($button);
 
@@ -286,17 +211,12 @@
           }
         });
 
-<<<<<<< HEAD
         totalRow = $table.find("tr").length;
-=======
-        totalRow = $table.find('tr').length;
->>>>>>> cd06928b8f978e8c852df5de0b87a008573dac4c
         totalColumn = COLUMN_LENGTH;
 
         return $table;
       };
 
-<<<<<<< HEAD
       this.initialize = function () {
         var $container = options.dialogsInBody ? $(document.body) : $editor;
 
@@ -332,35 +252,6 @@
           .fail(function () {
             context.invoke("editor.restoreRange");
           });
-=======
-      this.initialize = function() {
-        var $container = options.dialogsInBody ? $(document.body) : $editor;
-
-        var body = '<div class="form-group row-fluid">' + this.makeSpecialCharSetTable()[0].outerHTML + '</div>';
-
-        this.$dialog = ui.dialog({
-          title: lang.specialChar.select,
-          body: body,
-        }).render().appendTo($container);
-      };
-
-      this.show = function() {
-        var text = context.invoke('editor.getSelectedText');
-        context.invoke('editor.saveRange');
-        this.showSpecialCharDialog(text).then(function(selectChar) {
-          context.invoke('editor.restoreRange');
-
-          // build node
-          var $node = $('<span></span>').html(selectChar)[0];
-
-          if ($node) {
-            // insert video node
-            context.invoke('editor.insertNode', $node);
-          }
-        }).fail(function() {
-          context.invoke('editor.restoreRange');
-        });
->>>>>>> cd06928b8f978e8c852df5de0b87a008573dac4c
       };
 
       /**
@@ -369,19 +260,12 @@
        * @param {jQuery} $dialog
        * @return {Promise}
        */
-<<<<<<< HEAD
       this.showSpecialCharDialog = function (text) {
         return $.Deferred(function (deferred) {
           var $specialCharDialog = self.$dialog;
           var $specialCharNode = $specialCharDialog.find(
             ".note-specialchar-node"
           );
-=======
-      this.showSpecialCharDialog = function(text) {
-        return $.Deferred(function(deferred) {
-          var $specialCharDialog = self.$dialog;
-          var $specialCharNode = $specialCharDialog.find('.note-specialchar-node');
->>>>>>> cd06928b8f978e8c852df5de0b87a008573dac4c
           var $selectedNode = null;
           var ARROW_KEYS = [KEY.UP, KEY.DOWN, KEY.LEFT, KEY.RIGHT];
           var ENTER_KEY = KEY.ENTER;
@@ -390,38 +274,24 @@
             if (!$target) {
               return;
             }
-<<<<<<< HEAD
             $target.find("button").addClass("active");
-=======
-            $target.find('button').addClass('active');
->>>>>>> cd06928b8f978e8c852df5de0b87a008573dac4c
             $selectedNode = $target;
           }
 
           function removeActiveClass($target) {
-<<<<<<< HEAD
             $target.find("button").removeClass("active");
-=======
-            $target.find('button').removeClass('active');
->>>>>>> cd06928b8f978e8c852df5de0b87a008573dac4c
             $selectedNode = null;
           }
 
           // find next node
           function findNextNode(row, column) {
             var findNode = null;
-<<<<<<< HEAD
             $.each($specialCharNode, function (idx, $node) {
               var findRow = Math.ceil((idx + 1) / COLUMN_LENGTH);
               var findColumn =
                 (idx + 1) % COLUMN_LENGTH === 0
                   ? COLUMN_LENGTH
                   : (idx + 1) % COLUMN_LENGTH;
-=======
-            $.each($specialCharNode, function(idx, $node) {
-              var findRow = Math.ceil((idx + 1) / COLUMN_LENGTH);
-              var findColumn = ((idx + 1) % COLUMN_LENGTH === 0) ? COLUMN_LENGTH : (idx + 1) % COLUMN_LENGTH;
->>>>>>> cd06928b8f978e8c852df5de0b87a008573dac4c
               if (findRow === row && findColumn === column) {
                 findNode = $node;
                 return false;
@@ -446,14 +316,10 @@
                 currentRow = currentRow - 1;
               }
             } else if (KEY.RIGHT === keyCode) {
-<<<<<<< HEAD
               if (
                 currentRow === totalRow &&
                 lastRowColumnLength === currentColumn
               ) {
-=======
-              if (currentRow === totalRow && lastRowColumnLength === currentColumn) {
->>>>>>> cd06928b8f978e8c852df5de0b87a008573dac4c
                 currentColumn = 1;
                 currentRow = 1;
               } else if (currentColumn < totalColumn) {
@@ -472,14 +338,10 @@
               currentRow = currentRow + 1;
             }
 
-<<<<<<< HEAD
             if (
               currentRow === totalRow &&
               currentColumn > lastRowColumnLength
             ) {
-=======
-            if (currentRow === totalRow && currentColumn > lastRowColumnLength) {
->>>>>>> cd06928b8f978e8c852df5de0b87a008573dac4c
               currentRow = 1;
             } else if (currentRow > totalRow) {
               currentRow = 1;
@@ -500,17 +362,12 @@
               return;
             }
 
-<<<<<<< HEAD
             deferred.resolve(
               decodeURIComponent(
                 $selectedNode.find("button").attr("data-value")
               )
             );
             $specialCharDialog.modal("hide");
-=======
-            deferred.resolve(decodeURIComponent($selectedNode.find('button').attr('data-value')));
-            $specialCharDialog.modal('hide');
->>>>>>> cd06928b8f978e8c852df5de0b87a008573dac4c
           }
 
           function keyDownEventHandler(event) {
@@ -549,7 +406,6 @@
             }
           }
 
-<<<<<<< HEAD
           ui.onDialogShown(self.$dialog, function () {
             $(document).on("keydown", keyDownEventHandler);
 
@@ -562,21 +418,10 @@
                   $(event.currentTarget).find("button").attr("data-value")
                 )
               );
-=======
-          ui.onDialogShown(self.$dialog, function() {
-            $(document).on('keydown', keyDownEventHandler);
-
-            self.$dialog.find('button').tooltip();
-
-            $specialCharNode.on('click', function(event) {
-              event.preventDefault();
-              deferred.resolve(decodeURIComponent($(event.currentTarget).find('button').attr('data-value')));
->>>>>>> cd06928b8f978e8c852df5de0b87a008573dac4c
               ui.hideDialog(self.$dialog);
             });
           });
 
-<<<<<<< HEAD
           ui.onDialogHidden(self.$dialog, function () {
             $specialCharNode.off("click");
 
@@ -585,16 +430,6 @@
             $(document).off("keydown", keyDownEventHandler);
 
             if (deferred.state() === "pending") {
-=======
-          ui.onDialogHidden(self.$dialog, function() {
-            $specialCharNode.off('click');
-
-            self.$dialog.find('button').tooltip();
-
-            $(document).off('keydown', keyDownEventHandler);
-
-            if (deferred.state() === 'pending') {
->>>>>>> cd06928b8f978e8c852df5de0b87a008573dac4c
               deferred.reject();
             }
           });
@@ -604,8 +439,4 @@
       };
     },
   });
-<<<<<<< HEAD
 });
-=======
-}));
->>>>>>> cd06928b8f978e8c852df5de0b87a008573dac4c
